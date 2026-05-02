@@ -41,7 +41,7 @@ npm run test:e2e:ui   # interactive UI mode
 Better Auth encrypts Convex JWT signing keys (`jwks` table) with **`BETTER_AUTH_SECRET`** (Convex dashboard env). That error means existing keys were encrypted with a **different** secret than the one Convex is using now.
 
 1. Prefer: set **`BETTER_AUTH_SECRET`** back to the value that created the stored keys **or**
-2. Set a Convex env **`AUTH_JWKS_MAINTENANCE_TOKEN`** and run **`npx convex run authJwksMaintenance:clearAllJwtSigningKeys '{"maintenanceToken":"…"}'`** (see [`convex/authJwksMaintenance.ts`](../convex/authJwksMaintenance.ts)) so new keys can be minted after you **settle** on one secret. Existing sessions may need to sign in again.
+2. Set a Convex env **`AUTH_JWKS_MAINTENANCE_TOKEN`** and run **`npx convex run authJwksMaintenance:clearAllJwtSigningKeys '{"maintenanceToken":"…"}'`** (see [`convex/authJwksMaintenance.ts`](../../convex/authJwksMaintenance.ts)) so new keys can be minted after you **settle** on one secret. Existing sessions may need to sign in again.
 
 ## Suites
 

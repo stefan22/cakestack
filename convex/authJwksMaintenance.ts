@@ -2,6 +2,12 @@ import { internalMutation } from './_generated/server';
 import { components } from './_generated/api';
 import { v } from 'convex/values';
 
+type JwksFindManyBatch = {
+  page: Array<{ _id: string }>;
+  isDone?: boolean;
+  continueCursor?: string | null;
+};
+
 /**
  * Deletes every row in the Better Auth component `jwks` table.
  * Run after rotating `BETTER_AUTH_SECRET` when you see
@@ -30,18 +36,15 @@ export const clearAllJwtSigningKeys = internalMutation({
     let deleted = 0;
 
     for (;;) {
-      const batch = await ctx.runQuery(
+      const batch = (await ctx.runQuery(
         components.betterAuth.adapter.findMany,
         {
           model: 'jwks',
           paginationOpts: { cursor, numItems: 100 },
         }
-      );
+      )) as JwksFindManyBatch;
 
-      const page =
-        batch && typeof batch === 'object' && 'page' in batch ?
-          (batch as { page: Array<{ _id: string }> }).page
-        : [];
+      const page = Array.isArray(batch.page) ? batch.page : [];
 
       for (const row of page) {
         await ctx.runMutation(components.betterAuth.adapter.deleteOne, {
@@ -55,21 +58,8 @@ export const clearAllJwtSigningKeys = internalMutation({
         deleted += 1;
       }
 
-      const isDone =
-        batch && typeof batch === 'object' && 'isDone' in batch ?
-          Boolean((batch as { isDone?: boolean }).isDone)
-        : true;
-      const nextCursor =
-        batch &&
-        typeof batch === 'object' &&
-        'continueCursor' in batch &&
-        typeof (batch as { continueCursor?: string | null }).continueCursor ===
-          'string' ?
-          (batch as { continueCursor: string }).continueCursor
-        : null;
-
-      if (isDone || !nextCursor) break;
-      cursor = nextCursor;
+      if (batch.isDone || typeof batch.continueCursor !== 'string') break;
+      cursor = batch.continueCursor;
     }
 
     return { deleted };
