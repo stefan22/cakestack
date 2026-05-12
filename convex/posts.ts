@@ -106,6 +106,44 @@ export const updatePost = mutation({
   },
 });
 
+export const deletePost = mutation({
+  args: {
+    postId: v.id('posts'),
+  },
+  handler: async (ctx, args) => {
+    const user = await authComponent.safeGetAuthUser(ctx);
+
+    if (!user) {
+      throw new ConvexError('Not authenticated');
+    }
+
+    const post = await ctx.db.get(args.postId);
+
+    if (!post) {
+      throw new ConvexError('Post not found');
+    }
+
+    if (post.authorId !== user._id) {
+      throw new ConvexError('Unauthorized');
+    }
+
+    const comments = await ctx.db
+      .query('comments')
+      .filter((q) => q.eq(q.field('postId'), args.postId))
+      .collect();
+
+    for (const comment of comments) {
+      await ctx.db.delete(comment._id);
+    }
+
+    if (post.imageStorageId !== undefined) {
+      await ctx.storage.delete(post.imageStorageId);
+    }
+
+    await ctx.db.delete(args.postId);
+  },
+});
+
 export const getPostById = query({
   args: {
     postId: v.id('posts'),

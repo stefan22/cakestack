@@ -2,7 +2,7 @@ import { PostEditor } from '@/components/web/PostEditor';
 import { updateBlogAction } from '@/app/actions';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
-import { getToken } from '@/lib/auth-server';
+import { fetchAuthQuery } from '@/lib/auth-server';
 import { fetchQuery } from 'convex/nextjs';
 import { notFound, redirect } from 'next/navigation';
 
@@ -14,11 +14,10 @@ interface EditPostPageProps {
 
 export default async function EditPostPage({ params }: EditPostPageProps) {
   const { postId } = await params;
-  const token = await getToken();
 
   const [post, userId] = await Promise.all([
     fetchQuery(api.posts.getPostById, { postId }),
-    fetchQuery(api.presence.getUserId, {}, { token }),
+    fetchAuthQuery(api.presence.getUserId, {}),
   ]);
 
   if (!post) {

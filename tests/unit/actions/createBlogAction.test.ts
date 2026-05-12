@@ -1,17 +1,17 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const fetchMutation = vi.fn();
-const getToken = vi.fn();
+const fetchAuthMutation = vi.fn();
+const uploadPostImage = vi.fn();
 const revalidatePath = vi.fn();
 const revalidateTag = vi.fn();
 const redirect = vi.fn();
 
-vi.mock('convex/nextjs', () => ({
-  fetchMutation,
+vi.mock('@/lib/auth-server', () => ({
+  fetchAuthMutation,
 }));
 
-vi.mock('@/lib/auth-server', () => ({
-  getToken,
+vi.mock('@/lib/upload-post-image', () => ({
+  uploadPostImage,
 }));
 
 vi.mock('next/cache', () => ({
@@ -58,37 +58,28 @@ describe('createBlogAction', () => {
     const result = await createBlogAction(formData);
 
     expect(result).toEqual({ error: 'Failed to create blog post' });
-    expect(fetchMutation).not.toHaveBeenCalled();
+    expect(uploadPostImage).not.toHaveBeenCalled();
+    expect(fetchAuthMutation).not.toHaveBeenCalled();
   });
 
-  it('returns upload error when image POST is not ok', async () => {
-    getToken.mockResolvedValue('test-token');
-    fetchMutation.mockResolvedValueOnce('https://upload.example/upload');
-    global.fetch = vi.fn().mockResolvedValue({
-      ok: false,
-      json: vi.fn(),
-    });
+  it('returns upload error when uploadPostImage returns error', async () => {
+    uploadPostImage.mockResolvedValue({ error: 'Failed to upload image' });
 
     const { createBlogAction } = await import('@/app/actions');
 
     const result = await createBlogAction(validFormData());
 
     expect(result).toEqual({ error: 'Failed to upload image' });
-    expect(fetchMutation).toHaveBeenCalledTimes(1);
+    expect(uploadPostImage).toHaveBeenCalledTimes(1);
+    expect(fetchAuthMutation).not.toHaveBeenCalled();
     expect(revalidateTag).not.toHaveBeenCalled();
     expect(redirect).not.toHaveBeenCalled();
   });
 
   it('calls mutations, revalidates, and redirects on success', async () => {
     const postId = 'kg_post_test123';
-    getToken.mockResolvedValue('test-token');
-    fetchMutation
-      .mockResolvedValueOnce('https://upload.example/upload')
-      .mockResolvedValueOnce(postId);
-    global.fetch = vi.fn().mockResolvedValue({
-      ok: true,
-      json: async () => ({ storageId: 'kg_storage_test123' }),
-    });
+    uploadPostImage.mockResolvedValue('kg_storage_test123');
+    fetchAuthMutation.mockResolvedValueOnce(postId);
 
     const { createBlogAction } = await import('@/app/actions');
 
@@ -96,16 +87,17 @@ describe('createBlogAction', () => {
       'NEXT_REDIRECT'
     );
 
-    expect(fetchMutation).toHaveBeenCalledTimes(2);
+    expect(uploadPostImage).toHaveBeenCalledTimes(1);
+    expect(fetchAuthMutation).toHaveBeenCalledTimes(1);
     expect(revalidateTag).toHaveBeenCalledWith('blog', 'hours');
     expect(revalidateTag).toHaveBeenCalledWith(`post:${postId}`, 'hours');
     expect(revalidatePath).toHaveBeenCalledWith('/blog');
     expect(redirect).toHaveBeenCalledWith(`/blog/${postId}`);
   });
 
-  it('returns generic error when fetchMutation throws', async () => {
-    getToken.mockResolvedValue('test-token');
-    fetchMutation.mockRejectedValueOnce(new Error('network'));
+  it('returns generic error when fetchAuthMutation throws', async () => {
+    uploadPostImage.mockResolvedValue('kg_storage_test123');
+    fetchAuthMutation.mockRejectedValueOnce(new Error('network'));
 
     const { createBlogAction } = await import('@/app/actions');
 

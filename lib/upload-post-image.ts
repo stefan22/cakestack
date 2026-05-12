@@ -1,15 +1,13 @@
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
-import { fetchMutation } from 'convex/nextjs';
+import { fetchAuthMutation } from '@/lib/auth-server';
 
 export async function uploadPostImage(
-  image: File,
-  token: string | null | undefined
+  image: File
 ): Promise<Id<'_storage'> | { error: string }> {
-  const imageUrl = await fetchMutation(
+  const imageUrl = await fetchAuthMutation(
     api.posts.generateImageUploadUrl,
-    {},
-    { token: token ?? undefined }
+    {}
   );
 
   const uploadResult = await fetch(imageUrl, {

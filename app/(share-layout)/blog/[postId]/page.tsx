@@ -5,7 +5,7 @@ import { CommentSection } from '@/components/web/CommentSection';
 import { PostPresence } from '@/components/web/PostPresence';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
-import { getToken } from '@/lib/auth-server';
+import { fetchAuthQuery } from '@/lib/auth-server';
 import { fetchQuery, preloadQuery } from 'convex/nextjs';
 import { ArrowLeft } from 'lucide-react';
 import { Metadata } from 'next';
@@ -40,11 +40,9 @@ export async function generateMetadata({
 export default async function PostIdRoute({ params }: PostIdRouteProps) {
   const { postId } = await params;
 
-  const token = await getToken();
-
   const [preloadedComments, userId] = await Promise.all([
     preloadQuery(api.comments.getCommentsByPostId, { postId }),
-    fetchQuery(api.presence.getUserId, {}, { token }),
+    fetchAuthQuery(api.presence.getUserId, {}),
   ]);
 
   return (

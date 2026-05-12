@@ -4,8 +4,7 @@ import { postSchema, updatePostSchema } from '@/app/schemas/blog';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { uploadPostImage } from '@/lib/upload-post-image';
-import { getToken } from '@/lib/auth-server';
-import { fetchMutation } from 'convex/nextjs';
+import { fetchAuthMutation } from '@/lib/auth-server';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { isRedirectError } from 'next/dist/client/components/redirect-error';
 import { redirect } from 'next/navigation';
@@ -33,23 +32,17 @@ export async function createBlogAction(formData: FormData) {
   }
 
   try {
-    const token = await getToken();
-
-    const storageResult = await uploadPostImage(parsed.data.image, token);
+    const storageResult = await uploadPostImage(parsed.data.image);
 
     if (typeof storageResult === 'object' && 'error' in storageResult) {
       return { error: storageResult.error };
     }
 
-    const postId = await fetchMutation(
-      api.posts.createPost,
-      {
-        body: parsed.data.content,
-        title: parsed.data.title,
-        imageStorageId: storageResult,
-      },
-      { token }
-    );
+    const postId = await fetchAuthMutation(api.posts.createPost, {
+      body: parsed.data.content,
+      title: parsed.data.title,
+      imageStorageId: storageResult,
+    });
 
     revalidatePost(postId);
     redirect(`/blog/${postId}`);
@@ -79,13 +72,12 @@ export async function updateBlogAction(formData: FormData) {
   }
 
   try {
-    const token = await getToken();
     const postId = parsed.data.postId as Id<'posts'>;
 
     let imageStorageId: Id<'_storage'> | undefined;
 
     if (parsed.data.image) {
-      const storageResult = await uploadPostImage(parsed.data.image, token);
+      const storageResult = await uploadPostImage(parsed.data.image);
 
       if (typeof storageResult === 'object' && 'error' in storageResult) {
         return { error: storageResult.error };
@@ -94,16 +86,12 @@ export async function updateBlogAction(formData: FormData) {
       imageStorageId = storageResult;
     }
 
-    await fetchMutation(
-      api.posts.updatePost,
-      {
-        postId,
-        title: parsed.data.title,
-        body: parsed.data.content,
-        imageStorageId,
-      },
-      { token }
-    );
+    await fetchAuthMutation(api.posts.updatePost, {
+      postId,
+      title: parsed.data.title,
+      body: parsed.data.content,
+      imageStorageId,
+    });
 
     revalidatePost(postId);
     redirect(`/blog/${postId}`);
@@ -116,4 +104,17 @@ export async function updateBlogAction(formData: FormData) {
       error: 'Failed to update blog post',
     };
   }
+}
+
+export async function deleteBlogAction(
+  postId: Id<'posts'>
+): Promise<{ error?: string }> {
+  try {
+    await fetchAuthMutation(api.posts.deletePost, { postId });
+    revalidatePost(postId);
+  } catch (error) {
+    console.error(error);
+    return { error: 'Failed to delete post' };
+  }
+  return {};
 }
