@@ -27,9 +27,9 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   return (
-    <div className="py-12">
-      <div className="text-center pb-12">
-        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
+    <div className="py-16 animate-in fade-in slide-in-from-bottom-8 duration-500">
+      <div className="text-center pb-16">
+        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl animate-in fade-in slide-in-from-bottom-4 duration-500">
           Blog Posts
         </h1>
         <p className="pt-4 max-w-2xl mx-auto text-xl text-muted-foreground">

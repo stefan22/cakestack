@@ -15,11 +15,11 @@ import Image from 'next/image';
 
 export default async function Home() {
   return (
-    <div className="flex mb-12 flex-col ">
+    <div className="flex mb-12 flex-col animate-in fade-in slide-in-from-bottom-8 duration-500">
       {/* Hero Section */}
-      <section className="flex-1 flex flex-col items-center justify-center py-16 px-0 sm:px-4 text-center ">
-        <div className="space-y-6 max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-6xl bg-clip-text text-transparent bg-linear-to-r from-primary to-primary/60">
+      <section className="flex-1 flex flex-col items-center justify-center py-16 px-0 sm:px-4 text-center">
+        <div className="space-y-6 max-w-3xl mx-auto">
+          <h1 className="text-4xl font-extrabold tracking-tight lg:text-6xl bg-clip-text text-transparent bg-linear-to-r from-primary to-primary/60 animate-in fade-in slide-in-from-bottom-4 duration-500">
             CakeStack
           </h1>
           <p className="text-xl text-muted-foreground leading-relaxed"></p>

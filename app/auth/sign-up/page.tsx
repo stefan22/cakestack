@@ -81,12 +81,15 @@ export default function SignUpPage() {
           className="hidden md:block object-cover max-w-md rounded-tl-lg rounded-bl-lg"
         />
 
-        <div className="w-full p-0 md:p-4 lg:w-1/2">
-          <h1 className="text-3xl font-semibold text-gray-700 text-center">
-            Because your 3am Ideas Deserve Better!
+        <div className="w-full p-0 md:px-4 md:py-2 lg:w-1/2">
+          <h1 className="text-4xl px-4 font-semibold text-gray-700 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
+            Because your 3am{' '}
+            <span className="bg-clip-text text-transparent bg-linear-to-r from-primary to-primary/63">
+              Ideas Deserve Better!
+            </span>
           </h1>
 
-          <div className="flex mb-6 md:mb-0" />
+          <div className="flex mb-0" />
 
           <div className="flex flex-col justify-center w-full">
             <div className="my-4 flex items-center justify-center">
@@ -107,8 +110,10 @@ export default function SignUpPage() {
 
             <Card className="ring-0 rounded-lg md:shadow-lg mb-4 md:mb-0 md:px-4 mt-3 py-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <CardHeader>
-                <CardTitle>Sign Up</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-3xl md:text-2xl text-center">
+                  Sign Up
+                </CardTitle>
+                <CardDescription className="hidden md:block md:text-center md:text-sm">
                   Create an account to get started
                 </CardDescription>
               </CardHeader>
@@ -127,7 +132,8 @@ export default function SignUpPage() {
                               buttonVariants({
                                 size: 'lg',
                                 variant: 'outline',
-                              })
+                              }),
+                              '!text-[16px] md:!text-sm'
                             )}
                             aria-invalid={fieldState.invalid}
                             type="text"
@@ -158,7 +164,8 @@ export default function SignUpPage() {
                               buttonVariants({
                                 size: 'lg',
                                 variant: 'outline',
-                              })
+                              }),
+                              '!text-[16px] md:!text-sm'
                             )}
                             aria-invalid={fieldState.invalid}
                             type="email"
@@ -187,7 +194,8 @@ export default function SignUpPage() {
                               buttonVariants({
                                 size: 'lg',
                                 variant: 'outline',
-                              })
+                              }),
+                              '!text-[16px] md:!text-sm'
                             )}
                             aria-invalid={fieldState.invalid}
                             type="password"

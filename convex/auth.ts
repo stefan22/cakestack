@@ -3,7 +3,7 @@ import { convex } from '@convex-dev/better-auth/plugins';
 import { components } from './_generated/api';
 import { DataModel } from './_generated/dataModel';
 import { query } from './_generated/server';
-import { betterAuth } from 'better-auth/minimal';
+import { betterAuth } from 'better-auth';
 import authConfig from './auth.config';
 
 function requireConvexSiteUrl() {
@@ -44,6 +44,15 @@ export const createAuth = (ctx: GenericCtx<DataModel>) => {
       enabled: true,
       requireEmailVerification: false,
     },
+
+    socialProviders: {
+      google: {
+        clientId: process.env.GOOGLE_CLIENT_ID as string,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+        //redirectUri: `${siteUrl}/api/auth/callback/google`,
+      }
+    },
+
     plugins: [
       // The Convex plugin is required for Convex compatibility
       convex({ authConfig }),

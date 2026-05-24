@@ -78,26 +78,33 @@ export default function SignInPage() {
         />
 
         <div className="w-full p-0 md:p-4 lg:w-1/2">
-          <h1 className="text-3xl font-semibold text-gray-700 text-center">
+          <h1 className="text-4xl font-semibold text-gray-700 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
             Welcome back!
           </h1>
-          <p className="text-sm text-gray-600 text-center mt-2 mb-0 md:mb-8">
+          <p className="text-sm text-gray-500 text-center mt-2 mb-0 md:mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             It hasn&apos;t been the same without you.
           </p>
           <div className="flex mt-4 md:hidden" />
 
           <div className="flex flex-col-reverse md:flex-col justify-center w-full">
-            <div>
-              <Link
-                href="#"
-                className="flex items-center justify-center mb-4 text-white rounded-lg shadow-none md:shadow-md hover:bg-gray-100">
+            <div className="flex w-full items-center justify-center">
+              <Button
+                type="button"
+                onClick={() =>
+                  authClient.signIn.social({
+                    provider: 'google',
+                    callbackURL: '/',
+                  })
+                }
+                className="flex px-4 py-5 items-center justify-center mt-6 md:mt-0 mb-4 rounded-lg shadow-none md:shadow-md hover:bg-gray-100 bg-transparent border border-gray-200">
                 <div className="px-0 py-3">
                   <GoogleLogo />
                 </div>
-                <h2 className="px-0 md:px-4 py-3 w-4/8 text-center text-gray-600 font-bold">
+
+                <h2 className="text-center text-base text-gray-600 font-semibold">
                   Sign in with Google
                 </h2>
-              </Link>
+              </Button>
             </div>
 
             <div className="my-4 flex items-center justify-between">
@@ -110,10 +117,12 @@ export default function SignInPage() {
               <span className="border-b w-1/5 lg:w-1/4"></span>
             </div>
 
-            <Card className="ring-0 rounded-lg md:shadow-lg mb-4 md:mb-0 md:px-4 mt-4 py-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <Card className="ring-0 rounded-lg md:shadow-lg mb-4 md:mb-0 md:px-4 mt-3 py-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <CardHeader>
-                <CardTitle>Sign In</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-3xl md:text-2xl text-center">
+                  Sign In
+                </CardTitle>
+                <CardDescription className="hidden md:block md:text-center md:text-sm">
                   Signin with your email and password
                 </CardDescription>
               </CardHeader>
@@ -132,7 +141,8 @@ export default function SignInPage() {
                               buttonVariants({
                                 size: 'lg',
                                 variant: 'outline',
-                              })
+                              }),
+                              '!text-[16px] md:!text-sm'
                             )}
                             aria-invalid={fieldState.invalid}
                             type="email"
@@ -161,7 +171,8 @@ export default function SignInPage() {
                               buttonVariants({
                                 size: 'lg',
                                 variant: 'outline',
-                              })
+                              }),
+                              '!text-[16px] md:!text-sm'
                             )}
                             aria-invalid={fieldState.invalid}
                             type="password"
