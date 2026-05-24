@@ -46,7 +46,7 @@ export default async function PostIdRoute({ params }: PostIdRouteProps) {
   ]);
 
   return (
-    <div className="max-w-3xl mx-auto py-8 px-4 animate-in fade-in duration-500 relative">
+    <div className="max-w-3xl mx-auto py-8 px-0 md:px-4 animate-in fade-in duration-500 relative">
       <div className="flex items-center justify-between gap-4 mb-4">
         <Link
           href="/blog"

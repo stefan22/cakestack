@@ -5,9 +5,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-  Button,
-  buttonVariants,
-} from '@/components/ui';
+} from '@/components/ui/card';
+
+import { Button, buttonVariants } from '@/components/ui/button';
 
 import { BookOpen, HomeIcon, PenTool } from 'lucide-react';
 import Link from 'next/link';

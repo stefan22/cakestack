@@ -44,11 +44,12 @@ const Navbar = () => {
     <nav className="w-full py-5 flex items-center justify-between">
       {/* Left Section */}
       <div className="flex items-center gap-8">
-        <Link href="/" className="flex items-center">
+
           <h1 className="text-3xl font-bold leading-none">
-            Next<span className="text-blue-500">Pro</span>
+            <Link href="/" className="flex items-baseline text-2xl font-semibold text-neutral-900">
+              Cake<span className="text-sm inline-flex text-yellow-600">®</span>Stack
+            </Link>
           </h1>
-        </Link>
 
         <div className="hidden sm:flex items-baseline gap-2 mt-1">
           {navLinks.map((link) => (

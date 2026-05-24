@@ -3,9 +3,10 @@ import {
   CardContent,
   CardFooter,
   CardTitle,
-  Skeleton,
-  buttonVariants,
-} from '@/components/ui';
+
+} from '@/components/ui/card';
+import { buttonVariants } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 import { api } from '@/convex/_generated/api';
 import { fetchQuery } from 'convex/nextjs';
 import Link from 'next/link';
