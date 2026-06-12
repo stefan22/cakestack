@@ -30,11 +30,11 @@ npm run test:e2e:ui   # interactive UI mode
 
 | Variable | Purpose |
 |----------|---------|
-| `E2E_POST_ID` | Convex `posts` document id. When set, `post-detail.spec.ts` opens `/blog/<id>` and asserts the post renders (not “No post found”). |
+| `E2E_POST_SLUG` | A post's `slug` field. When set, `post-detail.spec.ts` opens `/blog/<slug>` and asserts the post renders (not “No post found”). |
 | `E2E_SKIP_CREATE_JOURNEY` | When set (any value), skips `create-journey.spec.ts` (sign-up + create post), e.g. for smoke-only runs. |
 | `PLAYWRIGHT_BASE_URL` | Override dev server URL used by tests and `webServer.url`. |
 
- Seed a post manually in the Convex dashboard or via your app, then copy its id into `E2E_POST_ID` for stable post-detail coverage.
+ Seed a post manually in the Convex dashboard or via your app, then copy its slug into `E2E_POST_SLUG` for stable post-detail coverage.
 
 ## Auth: “failed to decrypt private key” (`/api/auth/convex/token`)
 
@@ -46,7 +46,7 @@ Better Auth encrypts Convex JWT signing keys (`jwks` table) with **`BETTER_AUTH_
 ## Suites
 
 - **smoke.spec.ts** — Home, blog index, navbar, sign-in page (no auth).
-- **post-detail.spec.ts** — Requires `E2E_POST_ID`; skipped when unset.
+- **post-detail.spec.ts** — Requires `E2E_POST_SLUG`; skipped when unset.
 - **search.spec.ts** — Desktop viewport; navbar search dropdown (Convex-backed).
 - **create-journey.spec.ts** — Registers `e2e-<timestamp>@example.com`, creates a post with `fixtures/tiny.png`; skip with `E2E_SKIP_CREATE_JOURNEY` if Convex/auth is unavailable.
 

@@ -48,7 +48,7 @@ export function SearchInput() {
               {results.map((post) => (
                 <Link
                   className="flex flex-col px-4 py-2 text-sm hover:bg-accent hover:text-accent-foreground cursor-pointer"
-                  href={`/blog/${post._id}`}
+                  href={`/blog/${post.slug}`}
                   key={post._id}
                   onClick={() => {
                     setOpen(false);

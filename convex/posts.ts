@@ -1,7 +1,24 @@
-import { mutation, query } from './_generated/server';
+import {
+  internalMutation,
+  mutation,
+  query,
+  QueryCtx,
+} from './_generated/server';
 import { ConvexError, v } from 'convex/values';
 import { authComponent } from './auth';
 import { Doc } from './_generated/dataModel';
+import { uniqueSlug } from './slug';
+
+async function isSlugTaken(
+  ctx: QueryCtx,
+  candidate: string
+): Promise<boolean> {
+  const existing = await ctx.db
+    .query('posts')
+    .withIndex('by_slug', (q) => q.eq('slug', candidate))
+    .first();
+  return existing !== null;
+}
 
 export const createPost = mutation({
   args: {
@@ -16,14 +33,19 @@ export const createPost = mutation({
       throw new ConvexError('Not authenticated');
     }
 
-    const blogArticle = await ctx.db.insert('posts', {
+    const slug = await uniqueSlug(args.title, (candidate) =>
+      isSlugTaken(ctx, candidate)
+    );
+
+    const postId = await ctx.db.insert('posts', {
       body: args.body,
       title: args.title,
       authorId: user._id,
       imageStorageId: args.imageStorageId,
+      slug,
     });
 
-    return blogArticle;
+    return { postId, slug };
   },
 });
 
@@ -90,6 +112,7 @@ export const updatePost = mutation({
       body: string;
       updatedAt: number;
       imageStorageId?: typeof args.imageStorageId;
+      slug?: string;
     } = {
       title: args.title,
       body: args.body,
@@ -100,9 +123,20 @@ export const updatePost = mutation({
       patch.imageStorageId = args.imageStorageId;
     }
 
+    // Slug is immutable once set (editing the title never changes the URL).
+    // The only time we set it here is a never-backfilled older post, so it
+    // still ends up with one rather than staying permanently un-linkable.
+    let slug = post.slug;
+    if (!slug) {
+      slug = await uniqueSlug(args.title, (candidate) =>
+        isSlugTaken(ctx, candidate)
+      );
+      patch.slug = slug;
+    }
+
     await ctx.db.patch(args.postId, patch);
 
-    return args.postId;
+    return { postId: args.postId, slug };
   },
 });
 
@@ -167,8 +201,61 @@ export const getPostById = query({
   },
 });
 
+export const getPostBySlug = query({
+  args: {
+    slug: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const post = await ctx.db
+      .query('posts')
+      .withIndex('by_slug', (q) => q.eq('slug', args.slug))
+      .first();
+
+    if (!post) {
+      return null;
+    }
+
+    const resolvedImageUrl =
+      post.imageStorageId !== undefined ?
+        await ctx.storage.getUrl(post.imageStorageId)
+      : null;
+
+    return {
+      ...post,
+      imageUrl: resolvedImageUrl,
+    };
+  },
+});
+
+/**
+ * One-off migration for posts created before the `slug` field existed.
+ * Internal-only (not callable from the client) — run it yourself with:
+ *   npx convex run posts:backfillSlugs
+ * Safe to re-run: skips any post that already has a slug.
+ */
+export const backfillSlugs = internalMutation({
+  args: {},
+  handler: async (ctx) => {
+    const posts = await ctx.db.query('posts').collect();
+    const updated: Array<{ postId: string; slug: string }> = [];
+
+    for (const post of posts) {
+      if (post.slug) continue;
+
+      const slug = await uniqueSlug(post.title, (candidate) =>
+        isSlugTaken(ctx, candidate)
+      );
+      await ctx.db.patch(post._id, { slug });
+      updated.push({ postId: post._id, slug });
+    }
+
+    return updated;
+  },
+});
+
 interface searchResultTypes {
   _id: string;
+  slug: string;
   title: string;
   body: string;
 }
@@ -192,6 +279,9 @@ export const searchPosts = query({
         seen.add(doc._id);
         results.push({
           _id: doc._id,
+          // Falls back to the raw id only for the rare pre-backfill post;
+          // once backfillSlugs has run, every doc has a real slug.
+          slug: doc.slug ?? doc._id,
           title: doc.title,
           body: doc.body,
         });

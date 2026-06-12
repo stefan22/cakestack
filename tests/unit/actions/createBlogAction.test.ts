@@ -78,8 +78,9 @@ describe('createBlogAction', () => {
 
   it('calls mutations, revalidates, and redirects on success', async () => {
     const postId = 'kg_post_test123';
+    const slug = 'my-test-post';
     uploadPostImage.mockResolvedValue('kg_storage_test123');
-    fetchAuthMutation.mockResolvedValueOnce(postId);
+    fetchAuthMutation.mockResolvedValueOnce({ postId, slug });
 
     const { createBlogAction } = await import('@/app/actions');
 
@@ -92,7 +93,7 @@ describe('createBlogAction', () => {
     expect(revalidateTag).toHaveBeenCalledWith('blog', 'hours');
     expect(revalidateTag).toHaveBeenCalledWith(`post:${postId}`, 'hours');
     expect(revalidatePath).toHaveBeenCalledWith('/blog');
-    expect(redirect).toHaveBeenCalledWith(`/blog/${postId}`);
+    expect(redirect).toHaveBeenCalledWith(`/blog/${slug}`);
   });
 
   it('returns generic error when fetchAuthMutation throws', async () => {

@@ -13,22 +13,12 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: 'wooden-finch-842',
+        hostname: '**.convex.cloud',
         protocol: 'https',
         port: '',
       },
       {
-        hostname: 'wooden-finch-842.eu-west-1.convex.cloud',
-        protocol: 'https',
-        port: '',
-      },
-      {
-        hostname: 'wooden-finch-842.eu-west-1.convex.site',
-        protocol: 'https',
-        port: '',
-      },
-      {
-        hostname: 'energetic-dachshund-222.eu-west-1.convex.cloud',
+        hostname: '**.convex.site',
         protocol: 'https',
         port: '',
       },

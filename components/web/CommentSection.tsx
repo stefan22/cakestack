@@ -1,7 +1,6 @@
 'use client';
 
 import { useTransition } from 'react';
-import { useParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -36,9 +35,10 @@ import {
 } from '../ui';
 
 export function CommentSection(props: {
+  postId: Id<'posts'>;
   preloadedComments: Preloaded<typeof api.comments.getCommentsByPostId>;
 }) {
-  const params = useParams<{ postId: Id<'posts'> }>();
+  const { postId } = props;
   const data = usePreloadedQuery(props.preloadedComments);
   const { isAuthenticated, isLoading } = useConvexAuth();
 
@@ -50,7 +50,7 @@ export function CommentSection(props: {
     resolver: zodResolver(commentSchema),
     defaultValues: {
       body: '',
-      postId: params.postId,
+      postId,
     },
   });
 
@@ -58,7 +58,7 @@ export function CommentSection(props: {
     startTransition(async () => {
       try {
         await createComment(values);
-        form.reset({ body: '', postId: params.postId });
+        form.reset({ body: '', postId });
         toast.success('Comment posted');
       } catch {
         toast.error('Failed to create comment');

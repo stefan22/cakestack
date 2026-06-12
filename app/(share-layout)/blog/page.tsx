@@ -18,11 +18,32 @@ import { stripMarkdown } from '@/lib/markdown';
 import { cn } from '@/lib/utils';
 //import { connection } from 'next/server';
 
+const TITLE = 'CakeStack Dev Blog';
+const DESCRIPTION = 'Web Development Posts';
+
 export const metadata: Metadata = {
-  title: 'CakeStack Dev Blog',
-  description: 'Web Development Posts',
+  title: TITLE,
+  description: DESCRIPTION,
   category: 'Frontend Development',
   authors: [{ name: 'Admin@CakeStack.uk' }],
+  alternates: {
+    canonical: '/blog',
+  },
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: '/blog',
+    type: 'website',
+    // Metadata objects don't deep-merge with the root layout's, so the
+    // default OG image has to be repeated here or shares would show blank.
+    images: [{ url: '/covers/screenshot.png', width: 1439, height: 958 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ['/covers/screenshot.png'],
+  },
 };
 
 export default function BlogPage() {
@@ -72,7 +93,7 @@ const LoadBlogList = async () => {
 
           <CardTitle>
             <h1 className="text-2xl font-bold hover:text-primary px-4">
-              <Link href={`/blog/${post._id}`}>{post.title}</Link>
+              <Link href={`/blog/${post.slug ?? post._id}`}>{post.title}</Link>
             </h1>
           </CardTitle>
           <CardContent>
@@ -88,7 +109,7 @@ const LoadBlogList = async () => {
                   size: 'lg',
                 })
               )}
-              href={`/blog/${post._id}`}>
+              href={`/blog/${post.slug ?? post._id}`}>
               Read more
             </Link>
           </CardFooter>
@@ -107,7 +128,7 @@ function SkeletonLoadingUi() {
           <div className="space-y-2 flex flex-col">
             <Skeleton className="h-6 w-3/4" />
             <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-2/" />
+            <Skeleton className="h-4 w-2/3" />
           </div>
         </div>
       ))}

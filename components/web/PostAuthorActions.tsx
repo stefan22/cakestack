@@ -26,6 +26,8 @@ export function PostAuthorActions({ postId }: { postId: Id<'posts'> }) {
     return null;
   }
 
+  const slug = post.slug ?? postId;
+
   function handleDelete() {
     if (
       !window.confirm(
@@ -37,7 +39,7 @@ export function PostAuthorActions({ postId }: { postId: Id<'posts'> }) {
 
     setDeleteError(null);
     startTransition(async () => {
-      const result = await deleteBlogAction(postId);
+      const result = await deleteBlogAction(postId, slug);
       if (result.error) {
         setDeleteError(result.error);
         return;
@@ -50,7 +52,7 @@ export function PostAuthorActions({ postId }: { postId: Id<'posts'> }) {
   return (
     <div className="flex flex-wrap items-center justify-end gap-2">
       <Link
-        href={`/blog/${postId}/edit`}
+        href={`/blog/${slug}/edit`}
         className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}>
         Edit post
       </Link>

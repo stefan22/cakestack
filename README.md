@@ -40,3 +40,41 @@ npm run dev
 ```
 
 ![screenshot.png](/public/covers/screenshot.png)
+
+### Deploy to Netlify (production)
+
+Production URL: `https://blognext.netlify.app`
+
+1. Connect the repo in Netlify; build settings come from [`netlify.toml`](netlify.toml).
+2. Set production environment variables (see [`.env.example`](.env.example)):
+   - `CONVEX_DEPLOY_KEY`, `NEXT_PUBLIC_CONVEX_URL`, `NEXT_PUBLIC_CONVEX_SITE_URL`
+   - `NEXT_PUBLIC_SITE_URL` and `SITE_URL` = `https://blognext.netlify.app`
+   - `BETTER_AUTH_SECRET`, `AUTH_JWKS_URL`
+3. Set matching vars on the Convex production deployment (`SITE_URL`, `BETTER_AUTH_SECRET`, Google OAuth secrets).
+4. Google OAuth redirect URI: `https://blognext.netlify.app/api/auth/callback/google`
+5. Deploy previews are disabled in `netlify.toml` (production only).
+
+Local dry run:
+
+```bash
+npm run build:netlify
+```
+
+### Deploy to Netlify (production)
+
+Production URL: `https://blognext.netlify.app`
+
+1. Connect the repo in Netlify; build settings come from [`netlify.toml`](netlify.toml).
+2. Set production environment variables (see [`.env.example`](.env.example)):
+   - `CONVEX_DEPLOY_KEY`, `NEXT_PUBLIC_CONVEX_URL`, `NEXT_PUBLIC_CONVEX_SITE_URL`
+   - `NEXT_PUBLIC_SITE_URL` and `SITE_URL` = `https://blognext.netlify.app`
+   - `BETTER_AUTH_SECRET`, `AUTH_JWKS_URL`
+3. Set matching vars on the Convex production deployment (`SITE_URL`, `BETTER_AUTH_SECRET`, Google OAuth secrets).
+4. Google OAuth redirect URI: `https://blognext.netlify.app/api/auth/callback/google`
+5. Deploy previews are disabled in `netlify.toml` (production only).
+
+Local dry run:
+
+```bash
+npm run build:netlify
+```

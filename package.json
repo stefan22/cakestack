@@ -6,6 +6,7 @@
     "dev": "next dev --turbopack",
     "prebuild": "node scripts/check-convex-generated.cjs",
     "build": "next build --turbopack",
+    "build:netlify": "bash scripts/netlify-build.sh",
     "start": "next start",
     "lint": "eslint",
     "prettier": "prettier --write .",

@@ -9,11 +9,14 @@ import { revalidatePath, revalidateTag } from 'next/cache';
 import { isRedirectError } from 'next/dist/client/components/redirect-error';
 import { redirect } from 'next/navigation';
 
-function revalidatePost(postId: string) {
+function revalidatePost(postId: string, slug: string) {
+  // Cache tags stay keyed by the real Convex id (see CachedPostArticle) —
+  // only the path being revalidated needs the slug, since that's what's
+  // actually served at /blog/{slug} now.
   revalidateTag('blog', 'hours');
   revalidateTag(`post:${postId}`, 'hours');
   revalidatePath('/blog');
-  revalidatePath(`/blog/${postId}`);
+  revalidatePath(`/blog/${slug}`);
 }
 
 /**
@@ -38,14 +41,14 @@ export async function createBlogAction(formData: FormData) {
       return { error: storageResult.error };
     }
 
-    const postId = await fetchAuthMutation(api.posts.createPost, {
+    const { postId, slug } = await fetchAuthMutation(api.posts.createPost, {
       body: parsed.data.content,
       title: parsed.data.title,
       imageStorageId: storageResult,
     });
 
-    revalidatePost(postId);
-    redirect(`/blog/${postId}`);
+    revalidatePost(postId, slug);
+    redirect(`/blog/${slug}`);
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
@@ -86,15 +89,15 @@ export async function updateBlogAction(formData: FormData) {
       imageStorageId = storageResult;
     }
 
-    await fetchAuthMutation(api.posts.updatePost, {
+    const { slug } = await fetchAuthMutation(api.posts.updatePost, {
       postId,
       title: parsed.data.title,
       body: parsed.data.content,
       imageStorageId,
     });
 
-    revalidatePost(postId);
-    redirect(`/blog/${postId}`);
+    revalidatePost(postId, slug);
+    redirect(`/blog/${slug}`);
   } catch (error) {
     if (isRedirectError(error)) {
       throw error;
@@ -107,11 +110,12 @@ export async function updateBlogAction(formData: FormData) {
 }
 
 export async function deleteBlogAction(
-  postId: Id<'posts'>
+  postId: Id<'posts'>,
+  slug: string
 ): Promise<{ error?: string }> {
   try {
     await fetchAuthMutation(api.posts.deletePost, { postId });
-    revalidatePost(postId);
+    revalidatePost(postId, slug);
   } catch (error) {
     console.error(error);
     return { error: 'Failed to delete post' };

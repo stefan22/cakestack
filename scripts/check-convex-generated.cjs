@@ -1,5 +1,5 @@
 /**
- * Convex Vercel / `convex deploy --cmd`: the child `npm run build` runs BEFORE
+ * Convex Netlify/CI / `convex deploy --cmd`: the child `npm run build` runs BEFORE
  * functions upload, so `next build` must resolve `convex/_generated/` from disk.
  */
 
@@ -13,7 +13,7 @@ if (!fs.existsSync(api)) {
   console.error(`
 Missing ${path.relative(root, api)}.
 
-For Vercel + Convex, codegen runs after Next build unless these files are tracked.
+For Netlify/CI + Convex, codegen runs after Next build unless these files are tracked.
 Run: npx convex codegen
 Then commit the convex/_generated/ directory.
 

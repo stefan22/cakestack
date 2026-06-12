@@ -1,22 +1,21 @@
 import { PostEditor } from '@/components/web/PostEditor';
 import { updateBlogAction } from '@/app/actions';
 import { api } from '@/convex/_generated/api';
-import { Id } from '@/convex/_generated/dataModel';
 import { fetchAuthQuery } from '@/lib/auth-server';
 import { fetchQuery } from 'convex/nextjs';
 import { notFound, redirect } from 'next/navigation';
 
 interface EditPostPageProps {
   params: Promise<{
-    postId: Id<'posts'>;
+    slug: string;
   }>;
 }
 
 export default async function EditPostPage({ params }: EditPostPageProps) {
-  const { postId } = await params;
+  const { slug } = await params;
 
   const [post, userId] = await Promise.all([
-    fetchQuery(api.posts.getPostById, { postId }),
+    fetchQuery(api.posts.getPostBySlug, { slug }),
     fetchAuthQuery(api.presence.getUserId, {}),
   ]);
 
@@ -25,7 +24,7 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
   }
 
   if (!userId || post.authorId !== userId) {
-    redirect(`/blog/${postId}`);
+    redirect(`/blog/${slug}`);
   }
 
   return (
@@ -41,7 +40,7 @@ export default async function EditPostPage({ params }: EditPostPageProps) {
 
       <PostEditor
         mode="edit"
-        postId={postId}
+        postId={post._id}
         defaultValues={{
           title: post.title,
           content: post.body,
