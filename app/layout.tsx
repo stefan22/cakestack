@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import { Analytics } from '@vercel/analytics/next';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { Inter, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ui/theme-provider';
@@ -74,6 +75,7 @@ export default function RootLayout({
         </ThemeProvider>
       <Analytics />
       </body>
+      <GoogleAnalytics gaId="G-5721MB1ZSH" />
     </html>
   );
 }
