@@ -140,17 +140,17 @@ export default async function Home() {
               </div>
               <CardTitle>
                 <h1 className="text-2xl text-pretty hover:text-gray-700 cursor-pointer">
-                  Create Post
+                  GSAP Archive
                 </h1>
               </CardTitle>
-              <CardDescription>Share your thoughts</CardDescription>
+              <CardDescription>Gone for a moment</CardDescription>
               <div className="relative h-48 w-full overflow-hidden">
                 <Image
                   src={
-                    'https://res.cloudinary.com/dak4fznwo/image/upload/v1767242782/next-blog/gmmmwgaa2gjffjfatfhj.png'
+                    'https://res.cloudinary.com/dak4fznwo/image/upload/v1786591674/t9yxneznjac4mnidlasp.webp'
                   }
                   fill
-                  alt="leaves"
+                  alt="GSAP Archive"
                   sizes="lg"
                   loading="eager"
                   className="rounded-sm object-cover"
@@ -159,22 +159,25 @@ export default async function Home() {
             </CardHeader>
             <CardContent className="flex-1">
               <p className="text-sm text-muted-foreground">
-                Have something to say? <br />
-                Create a new blog post and share it with the community. Etiam
-                facilisis lacinia nunc ut accumsan. Curabitur iaculis erat
-                faucibus enim suscipit egestas. Etiam facilisis lacinia nunc ut
-                accumsan.
+                Back for good. An old React GSAP playground and development
+                notes.
+                <br />
+                <br />
+                Featuring a dropdown curtain navigation menu, a UFO dish, a
+                floating leaf of course, and a spinning heading.
               </p>
             </CardContent>
             <CardFooter>
               <Link
-                href="/create"
+                href="https://venerable-peony-509103.netlify.app"
+                target={'_blank'}
+                title={"React GSAP playground and development notes"}
                 className={buttonVariants({
                   className: 'w-full',
                   variant: 'default',
                   size: 'lg',
                 })}>
-                Create Post
+                External Link
               </Link>
             </CardFooter>
           </Card>
