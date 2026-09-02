@@ -163,6 +163,7 @@
   body {
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
+    @apply bg-background text-foreground;
   }
   [data-slot='layout'] {
     @apply overscroll-none;

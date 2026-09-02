@@ -18,6 +18,7 @@ import {
   buttonVariants,
 } from '@/components/ui';
 
+import { BlurFade } from '@/components/motion/blur-fade';
 import { authClient } from '@/lib/auth-client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
@@ -65,6 +66,9 @@ export default function SignInPage() {
   return (
     <div className="py-8">
       <div className="relative flex overflow-hidden mx-auto lg:max-w-4xl">
+        <BlurFade
+          inView
+          className="flex animate-in fade-in slide-in-from-bottom-6 duration-500">
         <Image
           src={
             'https://res.cloudinary.com/dak4fznwo/image/upload/v1767237743/blog-mern/banners/man-on-a-street.jpg'
@@ -76,55 +80,32 @@ export default function SignInPage() {
           loading="eager"
           className="hidden md:block object-cover max-w-md rounded-tl-lg rounded-bl-lg"
         />
+        </BlurFade>
 
-        <div className="w-full p-0 md:p-4 lg:w-1/2">
-          <h1 className="text-4xl font-semibold text-gray-700 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-            Welcome back!
-          </h1>
-          <p className="text-sm text-gray-500 text-center mt-2 mb-0 md:mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            It hasn&apos;t been the same without you.
-          </p>
-          <div className="flex mt-4 md:hidden" />
+        <div className="w-full p-0 md:px-4 md:py-2 lg:w-1/2">
+          <BlurFade inView className="mb-5">
+            <h1 className="text-4xl mt-4 font-semibold text-gray-700 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
+              Welcome back! <br />
+            </h1>
 
-          <div className="flex flex-col-reverse md:flex-col justify-center w-full">
-            <div className="flex w-full items-center justify-center">
-              <Button
-                type="button"
-                onClick={() =>
-                  authClient.signIn.social({
-                    provider: 'google',
-                    callbackURL: '/',
-                  })
-                }
-                className="flex px-4 py-5 items-center justify-center mt-6 md:mt-0 mb-4 rounded-lg shadow-none md:shadow-md hover:bg-gray-100 bg-transparent border border-gray-200">
-                <div className="px-0 py-3">
-                  <GoogleLogo />
-                </div>
+            <p className="text-xl text-gray-500 text-center mt-2 mb-0 md:mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              It hasn&apos;t been the same without you
+            </p>
+          </BlurFade>
 
-                <h2 className="text-center text-base text-gray-600 font-semibold">
-                  Sign in with Google
-                </h2>
-              </Button>
-            </div>
+          <div className="flex mb-0" />
 
-            <div className="my-4 flex items-center justify-between">
-              <span className="border-b w-1/5 lg:w-1/4"></span>
-              <Link
-                href="#"
-                className="text-xs text-center text-gray-500 uppercase">
-                or login with email
-              </Link>
-              <span className="border-b w-1/5 lg:w-1/4"></span>
-            </div>
-
-            <Card className="ring-0 rounded-lg md:shadow-lg mb-4 md:mb-0 md:px-4 mt-3 py-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="flex flex-col justify-center w-full">
+            <Card className="ring-0 rounded-lg md:shadow-lg mb-4 md:mb-0 md:px-4 my-16 py-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <CardHeader>
-                <CardTitle className="text-3xl md:text-2xl text-center">
-                  Sign In
-                </CardTitle>
-                <CardDescription className="hidden md:block md:text-center md:text-sm">
-                  Signin with your email and password
-                </CardDescription>
+                <BlurFade inView className="mb-10">
+                  <CardTitle className="text-3xl md:text-2xl text-center">
+                    Sign In
+                  </CardTitle>
+                  <CardDescription className="hidden pt-2 md:block md:text-center md:text-sm">
+                    Signin with your email and password
+                  </CardDescription>
+                </BlurFade>
               </CardHeader>
               <CardContent>
                 <form onSubmit={form.handleSubmit(onSignin)}>

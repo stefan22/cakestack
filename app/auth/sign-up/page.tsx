@@ -16,6 +16,7 @@ import {
   Input,
 } from '@/components/ui';
 
+import { BlurFade } from '@/components/motion/blur-fade';
 import Image from 'next/image';
 import { signUpSchema } from '@/app/schemas/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -69,53 +70,45 @@ export default function SignUpPage() {
   return (
     <div className="py-8">
       <div className="relative flex overflow-hidden mx-auto lg:max-w-4xl">
-        <Image
-          src={
-            'https://res.cloudinary.com/dak4fznwo/image/upload/v1767242722/next-blog/idcskllvhntoqtuqsot2.png'
-          }
-          width={1920}
-          height={620}
-          sizes={'lg'}
-          alt="Sign Up page"
-          loading="eager"
-          className="hidden md:block object-cover max-w-md rounded-tl-lg rounded-bl-lg"
-        />
+        <BlurFade
+          inView
+          className="flex animate-in fade-in slide-in-from-bottom-6 duration-500">
+          <Image
+            src={
+              'https://res.cloudinary.com/dak4fznwo/image/upload/v1767242722/next-blog/idcskllvhntoqtuqsot2.png'
+            }
+            width={1920}
+            height={620}
+            sizes={'lg'}
+            alt="Sign Up page"
+            loading="eager"
+            className="hidden md:block object-cover max-w-md rounded-tl-lg rounded-bl-lg"
+          />
+        </BlurFade>
 
         <div className="w-full p-0 md:px-4 md:py-2 lg:w-1/2">
-          <h1 className="text-4xl px-4 font-semibold text-gray-700 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-            Because your 3am{' '}
-            <span className="bg-clip-text text-transparent bg-linear-to-r from-primary to-primary/63">
-              Ideas Deserve Better!
-            </span>
-          </h1>
+          <BlurFade inView className="mb-5">
+            <h1 className="text-4xl px-4 pt-4 font-semibold text-gray-700 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
+              Because your 3am <br />
+              <p className="text-xl text-gray-500 text-center mt-2 mb-0 md:mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                Ideas Deserve Better!
+              </p>
+            </h1>
+          </BlurFade>
 
           <div className="flex mb-0" />
 
           <div className="flex flex-col justify-center w-full">
-            <div className="my-4 flex items-center justify-center">
-              <Image
-                aria-label="CackeStack UK"
-                width={30}
-                height={30}
-                src={
-                  'https://res.cloudinary.com/dak4fznwo/image/upload/v1769746264/blog-mern/icons/logos/ccake_bzspcr.svg'
-                }
-                sizes={'sm'}
-                alt="Logo"
-                loading="eager"
-                className="flex object-cover"
-              />
-              <span className="font-medium tracking-wide">akeStack.UK</span>
-            </div>
-
-            <Card className="ring-0 rounded-lg md:shadow-lg mb-4 md:mb-0 md:px-4 mt-3 py-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <Card className="ring-0 rounded-lg md:shadow-lg mb-4 md:mb-0 md:px-4 py-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <CardHeader>
-                <CardTitle className="text-3xl md:text-2xl text-center">
-                  Sign Up
-                </CardTitle>
-                <CardDescription className="hidden md:block md:text-center md:text-sm">
-                  Create an account to get started
-                </CardDescription>
+                <BlurFade inView className="mb-6">
+                  <CardTitle className="text-3xl md:text-2xl text-center">
+                    Sign Up
+                  </CardTitle>
+                  <CardDescription className="hidden pt-2 md:block md:text-center md:text-sm">
+                    Create an account to get started
+                  </CardDescription>
+                </BlurFade>
               </CardHeader>
               <CardContent>
                 <form onSubmit={form.handleSubmit(onSignup)}>
