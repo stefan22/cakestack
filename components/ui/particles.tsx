@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useEffect, useRef, useState } from "react"
+import { useLayoutEffect, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
 
 interface MousePosition {
@@ -28,7 +28,7 @@ function useMousePosition(): MousePosition {
     y: 0,
   })
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       setMousePosition({ x: event.clientX, y: event.clientY })
     }
@@ -92,7 +92,7 @@ export const Particles: React.FC<ParticlesProps> = ({
   const mousePosition = useMousePosition()
   const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
   const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 })
-  const animationRef = useRef<number>()
+  const animationRef = useRef<number | null>(null)
   const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1
   const rgb = hexToRgb(color)
 
@@ -237,7 +237,7 @@ export const Particles: React.FC<ParticlesProps> = ({
     animationRef.current = window.requestAnimationFrame(animate)
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (canvasRef.current) {
       context.current = canvasRef.current.getContext("2d")
     }
@@ -247,19 +247,19 @@ export const Particles: React.FC<ParticlesProps> = ({
 
     return () => {
       window.removeEventListener("resize", initCanvas)
-      if (animationRef.current) {
+      if (animationRef.current !== null) {
         cancelAnimationFrame(animationRef.current)
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [color])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     onMouseMove()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mousePosition.x, mousePosition.y])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     initCanvas()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refresh])
