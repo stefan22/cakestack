@@ -1,5 +1,6 @@
 import { BlurFade } from '@/components/motion/blur-fade';
 import { StaggerContainer, StaggerItem } from '@/components/motion/stagger';
+import { Particles } from '@/components/ui/particles';
 import { BlogGrid } from '@/components/web/blog-grid';
 import { CtaSection } from '@/components/web/cta-section';
 import { SubscribeForm } from '@/components/web/subscribe-form';
@@ -11,10 +12,17 @@ export default async function Home() {
     <div className="flex mb-12 flex-col">
       {/* Hero Section */}
 
-      <section className="mx-auto max-w-7xl px-0 pt-16 text-center sm:pt-24">
+      <section className="relative mx-auto overflow-hidden max-w-7xl px-0 pt-16 text-center sm:pt-24">
+        <Particles
+          quantity={90}
+          color="#818cf8"
+          staticity={25}
+          ease={16}
+          size={0.5}
+        />
         <StaggerContainer
           staggerDelay={0.12}
-          className="flex flex-col items-center gap-5">
+          className="relative flex flex-col items-center gap-5">
           <StaggerItem>
             <span className="inline-flex items-center rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">
               Front-end development notes

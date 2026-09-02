@@ -172,11 +172,6 @@
   button:active {
     @apply opacity-60 md:opacity-100;
   }
-  button,
-  [role='button'],
-  a {
-    @apply cursor-pointer;
-  }
 }
 
 @utility section-soft {
@@ -251,8 +246,4 @@
 
 .prose p > strong {
   color: #328ccc;
-}
-
-.text-foreground {
-  color: var(--color-blue-500);
 }

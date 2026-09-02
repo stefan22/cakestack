@@ -5,6 +5,7 @@ export * from './dropdown-menu';
 export * from './field';
 export * from './input';
 export * from './label';
+export * from './particles';
 export * from './separator';
 export * from './skeleton';
 export * from './sonner';
