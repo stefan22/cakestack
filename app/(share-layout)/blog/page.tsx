@@ -50,7 +50,7 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   return (
     <div className="mb-12 flex-col">
-      <section className="mx-auto max-w-6xl px-4 pt-16 text-center sm:px-6 sm:pt-24">
+      <section className="mx-auto max-w-7xl px-0 pt-16 text-center sm:pt-24">
         <StaggerContainer
           staggerDelay={0.12}
           className="flex flex-col items-center gap-5 mb-12">

@@ -11,7 +11,7 @@ export default async function Home() {
     <div className="flex mb-12 flex-col">
       {/* Hero Section */}
 
-      <section className="mx-auto max-w-6xl px-4 pt-16 text-center sm:px-6 sm:pt-24">
+      <section className="mx-auto max-w-7xl px-0 pt-16 text-center sm:pt-24">
         <StaggerContainer
           staggerDelay={0.12}
           className="flex flex-col items-center gap-5">
@@ -23,7 +23,7 @@ export default async function Home() {
 
           {/*main heading*/}
           <StaggerItem yOffset={16}>
-            <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+            <h1 className="text-5xl font-semibold tracking-tight sm:text-6xl">
               Ideas on lorem, and building
             </h1>
           </StaggerItem>
@@ -35,17 +35,17 @@ export default async function Home() {
             </p>
           </StaggerItem>
 
-          <StaggerItem yOffset={16}>
-            <SubscribeForm className="flex flex-col max-w-2xl items-center mt-10 mb-20 gap-2 sm:flex-row" />
+          <StaggerItem yOffset={16} className="w-full sm:flex justify-center items-center">
+            <SubscribeForm className="flex flex-col items-center sm:w-120 mt-10 mb-20 gap-4 sm:flex-row" />
           </StaggerItem>
         </StaggerContainer>
       </section>
 
-      <BlurFade inView className="mx-auto w-full mb-10 max-w-6xl px-4 sm:px-6">
+      <BlurFade inView className="mx-auto w-full mb-10 max-w-7xl px-0 sm:px-0">
         <CtaSection />
       </BlurFade>
 
-      <section className="mx-auto max-w-6xl px-4 pt-16 text-center sm:px-6 sm:pt-24">
+      <section className="mx-auto max-w-7xl px-0 pt-16 text-center sm:pt-24">
         <StaggerContainer staggerDelay={0.06} className="mb-12">
           <StaggerItem yOffset={12}>
             <h2 className="text-5xl mb-3 font-semibold tracking-tight">

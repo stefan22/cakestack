@@ -170,13 +170,17 @@
   }
   a:active,
   button:active {
-    @apply opacity-60 md:opacity-100;
+    @apply opacity-60 md:opacity-100; 
   }
+  a,button {
+    @apply cursor-pointer;
+  }
+
 
   button,
   [role='button'],
   a {
-    cursor: pointer;
+    cursor: pointer !important
   }
 }
 
