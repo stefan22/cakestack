@@ -1,187 +1,64 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 
-import { Button, buttonVariants } from '@/components/ui/button';
 
-import { BookOpen, HomeIcon, PenTool } from 'lucide-react';
-import Link from 'next/link';
-import Image from 'next/image';
+import { BlurFade } from '@/components/motion/blur-fade';
+import { StaggerContainer, StaggerItem } from '@/components/motion/stagger';
+import { BlogGrid } from '@/components/web/blog-grid';
+import { CtaSection } from '@/components/web/cta-section';
+import { SubscribeForm } from '@/components/web/subscribe-form';
+import { posts } from '@/lib/blog-data';
 
 export default async function Home() {
+
+
   return (
     <div className="flex mb-12 flex-col animate-in fade-in slide-in-from-bottom-8 duration-500">
       {/* Hero Section */}
-      <section className="flex-1 flex flex-col items-center justify-center py-16 px-0 sm:px-4 text-center">
-        <div className="space-y-6 max-w-3xl mx-auto">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-6xl bg-clip-text text-transparent bg-linear-to-r from-primary to-primary/60 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            CakeStack
-          </h1>
-          <p className="text-xl text-muted-foreground leading-relaxed"></p>
-          <div className="flex items-center justify-center gap-4 pt-4">
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="rounded-full px-8">
-              <Link href="/create">Write a Post</Link>
-            </Button>
-          </div>
-        </div>
+
+      <section className="mx-auto max-w-6xl px-4 pt-16 text-center sm:px-6 sm:pt-24">
+        <StaggerContainer
+          staggerDelay={0.12}
+          className="flex flex-col items-center gap-5">
+          <StaggerItem>
+            <span className="inline-flex items-center rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">
+              Front-end development notes
+            </span>
+          </StaggerItem>
+
+          {/*main heading*/}
+          <StaggerItem yOffset={16}>
+            <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              Ideas on lorem, and building
+            </h1>
+          </StaggerItem>
+
+          <StaggerItem yOffset={16}>
+            <p className="max-w-4xl text-lg text-muted-foreground">
+              Essays and field notes from product craft, and the small decisions
+              that make software feel considered.
+            </p>
+          </StaggerItem>
+
+          <StaggerItem yOffset={16}>
+            <SubscribeForm className="flex flex-col max-w-2xl items-center mt-10 mb-20 gap-2 sm:flex-row" />
+          </StaggerItem>
+        </StaggerContainer>
       </section>
 
-      {/* Features Section */}
-      <section className="py-0 px-0 sm:py-6 sm:px-4">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl mx-auto">
-          <Card className="flex flex-col border-none shadow-md hover:shadow-lg transition-shadow duration-300">
-            <CardHeader>
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary">
-                <HomeIcon className="w-6 h-6" />
-              </div>
-              <CardTitle>
-                <h1 className="text-2xl text-pretty hover:text-gray-700 cursor-pointer">
-                  Home
-                </h1>
-              </CardTitle>
-              <CardDescription>Return to the landing page</CardDescription>
-              <div className="relative h-48 w-full overflow-hidden">
-                <Image
-                  src={
-                    'https://res.cloudinary.com/dak4fznwo/image/upload/v1767242402/next-blog/uh7oe6qxtuileqw8rnbm.png'
-                  }
-                  fill
-                  alt="leaves"
-                  sizes="lg"
-                  loading="eager"
-                  className="rounded-sm object-cover"
-                />
-              </div>
-            </CardHeader>
+      <section className="mx-auto w-full mb-10 max-w-6xl px-4 sm:px-6">
+        <CtaSection />
+      </section>
 
-            <CardContent className="flex-1">
-              <p className="text-sm text-muted-foreground">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Praesent tempus volutpat. <br />
-                <br />
-                Etiam nunc ut accumsan. Curabitur iaculis erat faucibus enim
-                suscipit egestas. Suspendisse tortor consectetur elementum.
-              </p>
-            </CardContent>
-            <CardFooter>
-              <Link
-                href="/"
-                className={buttonVariants({
-                  className: 'w-full',
-                  variant: 'default',
-                  size: 'lg',
-                })}>
-                Go Home
-              </Link>
-            </CardFooter>
-          </Card>
+      <section className="mx-auto max-w-6xl px-4 pt-16 text-center sm:px-6 sm:pt-24">
+        <BlurFade inView className="mb-12">
+          <h2 className="text-5xl mb-3 font-semibold tracking-tight">
+            All articles
+          </h2>
+          <p className="mt-1 text-muted-foreground">
+            Filter by topic or search to find what you&apos;re after.
+          </p>
+        </BlurFade>
 
-          <Card className="flex flex-col border-none shadow-md hover:shadow-lg transition-shadow duration-300">
-            <CardHeader>
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary">
-                <BookOpen className="w-6 h-6" />
-              </div>
-              <CardTitle>
-                <h1 className="text-2xl text-pretty hover:text-gray-700 cursor-pointer">
-                  Blog
-                </h1>
-              </CardTitle>
-
-              <CardDescription>Read our latest articles</CardDescription>
-              <div className="relative h-48 w-full overflow-hidden">
-                <Image
-                  src={
-                    'https://res.cloudinary.com/dak4fznwo/image/upload/v1767242848/next-blog/ctmsyvj9lgs1thorv1eh.png'
-                  }
-                  fill
-                  alt="leaves"
-                  sizes="lg"
-                  loading="eager"
-                  className="rounded-sm object-cover"
-                />
-              </div>
-            </CardHeader>
-            <CardContent className="flex-1">
-              <p className="text-sm text-muted-foreground">
-                Proin semper turpis et tempor interdum. Nunc dolor nisi,
-                imperdiet ac fringilla sit amet, ullamcorper in felis.
-                <br />
-                Praesent elementum nulla sed imperdiet rhoncus. Orci varius
-                natoque penatibus et magnis dis parturient montes, nascetur
-                ridiculus mus.
-              </p>
-            </CardContent>
-            <CardFooter>
-              <Link
-                href="/blog"
-                className={buttonVariants({
-                  variant: 'default',
-                  className: 'w-full',
-                  size: 'lg',
-                })}>
-                Visit Blog
-              </Link>
-            </CardFooter>
-          </Card>
-
-          <Card className="flex flex-col border-none shadow-md hover:shadow-lg transition-shadow duration-300">
-            <CardHeader>
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary">
-                <PenTool className="w-6 h-6" />
-              </div>
-              <CardTitle>
-                <h1 className="text-2xl text-pretty hover:text-gray-700 cursor-pointer">
-                  GSAP Archive
-                </h1>
-              </CardTitle>
-              <CardDescription>Gone for a moment</CardDescription>
-              <div className="relative h-48 w-full overflow-hidden">
-                <Image
-                  src={
-                    'https://res.cloudinary.com/dak4fznwo/image/upload/v1786591674/t9yxneznjac4mnidlasp.webp'
-                  }
-                  fill
-                  alt="GSAP Archive"
-                  sizes="lg"
-                  loading="eager"
-                  className="rounded-sm object-cover"
-                />
-              </div>
-            </CardHeader>
-            <CardContent className="flex-1">
-              <p className="text-sm text-muted-foreground">
-                Back for good. An old React GSAP playground and development
-                notes.
-                <br />
-                <br />
-                Featuring a dropdown curtain navigation menu, a UFO dish, a
-                floating leaf of course, and a spinning heading.
-              </p>
-            </CardContent>
-            <CardFooter>
-              <Link
-                href="https://venerable-peony-509103.netlify.app"
-                target={'_blank'}
-                title={"React GSAP playground and development notes"}
-                className={buttonVariants({
-                  className: 'w-full',
-                  variant: 'default',
-                  size: 'lg',
-                })}>
-                External Link
-              </Link>
-            </CardFooter>
-          </Card>
-        </div>
+        <BlogGrid posts={posts} />
       </section>
     </div>
   );

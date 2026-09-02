@@ -20,13 +20,13 @@ export function SearchInput() {
   }
 
   return (
-    <div className="relative w-full max-w-sm z-10">
+    <div className="relative w-full min-w-xs z-10">
       <div className="relative">
         <Search className="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />
         <Input
           name="term"
           type="search"
-          placeholder="Search..."
+          placeholder="Search posts..."
           className="w-full pl-8 bg-background"
           value={term}
           onChange={handleInputChange}

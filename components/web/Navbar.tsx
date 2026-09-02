@@ -17,8 +17,7 @@ const Navbar = () => {
   const [isPending, startTransition] = useTransition();
 
   const navLinks = [
-    { label: 'Home', href: '/', id: 'home' },
-    { label: 'Blog', href: '/blog', id: 'blog' },
+    { label: 'All Posts', href: '/blog', id: 'blog' },
     ...(isAuthenticated ?
       [{ label: 'Create', href: '/create', id: 'create' }]
     : []),
@@ -47,7 +46,7 @@ const Navbar = () => {
 
           <h1 className="text-3xl font-bold leading-none">
             <Link href="/" className="flex items-baseline text-2xl font-semibold text-neutral-900">
-              Cake<span className="text-sm inline-flex text-yellow-600">®</span>Stack
+              CakeStack
             </Link>
           </h1>
 
@@ -57,16 +56,17 @@ const Navbar = () => {
               key={link.id}
               href={link.href}
               data-testid={`nav-link-${link.id}`}
-              className={buttonVariants({ variant: 'ghost' })}>
+              className={buttonVariants({ variant: 'secondary' })}>
               {link.label}
             </Link>
+
           ))}
         </div>
       </div>
 
       {/* Right Section */}
       <div className="flex items-center gap-2">
-        <div className="hidden md:block mr-2">
+        <div className="hidden md:block mr-3">
           <SearchInput />
         </div>
 
