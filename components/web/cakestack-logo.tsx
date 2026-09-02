@@ -29,12 +29,12 @@ export const CakeStackLogo: React.FC<CakeStackLogoProps> = ({
         style={{ width: size, height: size }}
       >
         <Image
-          src="/images/cakedes.webp"
+          src="/images/cakestack-bgrm.webp"
           alt=""
           fill
           sizes={`${size}px`}
           priority
-          className="object-contain"
+          className="object-contain dynamic-image"
         />
       </div>
 
