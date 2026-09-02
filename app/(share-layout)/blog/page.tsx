@@ -49,27 +49,30 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   return (
-    <div className="py-16">
-      <StaggerContainer
-        staggerDelay={0.08}
-        className="text-center pb-16">
-        <StaggerItem yOffset={12}>
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
-            Blog Posts
-          </h1>
-        </StaggerItem>
-        <StaggerItem yOffset={12}>
-          <p className="pt-4 max-w-2xl mx-auto text-xl text-muted-foreground">
-            Frontend development insights
-          </p>
-        </StaggerItem>
-      </StaggerContainer>
+    <div className="mb-12 flex-col">
+      <section className="mx-auto max-w-6xl px-4 pt-16 text-center sm:px-6 sm:pt-24">
+        <StaggerContainer
+          staggerDelay={0.12}
+          className="flex flex-col items-center gap-5 mb-12">
+          <StaggerItem yOffset={16}>
+            <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">
+              Blog Posts
+            </h1>
+          </StaggerItem>
 
-      <BlurFade delay={0.12}>
-        <Suspense fallback={<SkeletonLoadingUi />}>
-          <LoadBlogList />
-        </Suspense>
-      </BlurFade>
+          <StaggerItem yOffset={16}>
+            <p className="max-w-4xl text-lg text-muted-foreground">
+              Frontend development insights
+            </p>
+          </StaggerItem>
+        </StaggerContainer>
+
+        <BlurFade delay={0.14}>
+          <Suspense fallback={<SkeletonLoadingUi />}>
+            <LoadBlogList />
+          </Suspense>
+        </BlurFade>
+      </section>
     </div>
   );
 }
@@ -82,9 +85,9 @@ const LoadBlogList = async () => {
   const data = await fetchQuery(api.posts.getPosts);
 
   return (
-    <div className="grid gap-6 mb-12 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid w-full gap-6 mb-12 md:grid-cols-2 lg:grid-cols-3">
       {data?.map((post, index) => (
-        <Card className="pt-0" key={post._id}>
+        <Card className="w-full pt-0" key={post._id}>
           <div className="relative h-48 w-full overflow-hidden">
             <Image
               src={
@@ -129,9 +132,9 @@ const LoadBlogList = async () => {
 
 function SkeletonLoadingUi() {
   return (
-    <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-3">
+    <div className="grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3">
       {[...Array(3)].map((_, i) => (
-        <div className="flex flex-col space-y-3" key={i}>
+        <div className="flex flex-col space-y-3 w-full" key={i}>
           <Skeleton className="h-48 w-full rounded-xl" />
           <div className="space-y-2 flex flex-col">
             <Skeleton className="h-6 w-3/4" />

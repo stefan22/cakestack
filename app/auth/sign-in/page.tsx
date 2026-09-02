@@ -66,7 +66,7 @@ export default function SignInPage() {
   return (
     <div className="py-8">
       <div className="relative flex overflow-hidden mx-auto lg:max-w-4xl">
-        <BlurFade delay={0.04} className="flex">
+        <BlurFade delay={0.04} yOffset={0} blur="0px" className="flex">
           <Image
             src={
               'https://res.cloudinary.com/dak4fznwo/image/upload/v1767237743/blog-mern/banners/man-on-a-street.jpg'
