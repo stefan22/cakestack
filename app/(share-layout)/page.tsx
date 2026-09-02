@@ -1,5 +1,3 @@
-
-
 import { BlurFade } from '@/components/motion/blur-fade';
 import { StaggerContainer, StaggerItem } from '@/components/motion/stagger';
 import { BlogGrid } from '@/components/web/blog-grid';
@@ -9,9 +7,8 @@ import { posts } from '@/lib/blog-data';
 
 export default async function Home() {
 
-
   return (
-    <div className="flex mb-12 flex-col animate-in fade-in slide-in-from-bottom-8 duration-500">
+    <div className="flex mb-12 flex-col">
       {/* Hero Section */}
 
       <section className="mx-auto max-w-6xl px-4 pt-16 text-center sm:px-6 sm:pt-24">
@@ -44,21 +41,27 @@ export default async function Home() {
         </StaggerContainer>
       </section>
 
-      <section className="mx-auto w-full mb-10 max-w-6xl px-4 sm:px-6">
+      <BlurFade inView className="mx-auto w-full mb-10 max-w-6xl px-4 sm:px-6">
         <CtaSection />
-      </section>
+      </BlurFade>
 
       <section className="mx-auto max-w-6xl px-4 pt-16 text-center sm:px-6 sm:pt-24">
-        <BlurFade inView className="mb-12">
-          <h2 className="text-5xl mb-3 font-semibold tracking-tight">
-            All articles
-          </h2>
-          <p className="mt-1 text-muted-foreground">
-            Filter by topic or search to find what you&apos;re after.
-          </p>
-        </BlurFade>
+        <StaggerContainer staggerDelay={0.06} className="mb-12">
+          <StaggerItem yOffset={12}>
+            <h2 className="text-5xl mb-3 font-semibold tracking-tight">
+              All articles
+            </h2>
+          </StaggerItem>
+          <StaggerItem yOffset={12}>
+            <p className="mt-1 text-muted-foreground">
+              Filter by topic or search to find what you&apos;re after.
+            </p>
+          </StaggerItem>
+        </StaggerContainer>
 
-        <BlogGrid posts={posts} />
+        <BlurFade delay={0.14}>
+          <BlogGrid posts={posts} />
+        </BlurFade>
       </section>
     </div>
   );

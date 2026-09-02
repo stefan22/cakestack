@@ -16,7 +16,8 @@ import { cacheLife, cacheTag } from 'next/cache';
 import { Metadata } from 'next';
 import { stripMarkdown } from '@/lib/markdown';
 import { cn } from '@/lib/utils';
-//import { connection } from 'next/server';
+import { BlurFade } from '@/components/motion/blur-fade';
+import { StaggerContainer, StaggerItem } from '@/components/motion/stagger';
 
 const TITLE = 'CakeStack Dev Blog';
 const DESCRIPTION = 'Web Development Posts';
@@ -48,19 +49,27 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   return (
-    <div className="py-16 animate-in fade-in slide-in-from-bottom-8 duration-500">
-      <div className="text-center pb-16">
-        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl animate-in fade-in slide-in-from-bottom-4 duration-500">
-          Blog Posts
-        </h1>
-        <p className="pt-4 max-w-2xl mx-auto text-xl text-muted-foreground">
-          Frontend development insights
-        </p>
-      </div>
+    <div className="py-16">
+      <StaggerContainer
+        staggerDelay={0.08}
+        className="text-center pb-16">
+        <StaggerItem yOffset={12}>
+          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
+            Blog Posts
+          </h1>
+        </StaggerItem>
+        <StaggerItem yOffset={12}>
+          <p className="pt-4 max-w-2xl mx-auto text-xl text-muted-foreground">
+            Frontend development insights
+          </p>
+        </StaggerItem>
+      </StaggerContainer>
 
-      <Suspense fallback={<SkeletonLoadingUi />}>
-        <LoadBlogList />
-      </Suspense>
+      <BlurFade delay={0.12}>
+        <Suspense fallback={<SkeletonLoadingUi />}>
+          <LoadBlogList />
+        </Suspense>
+      </BlurFade>
     </div>
   );
 }
@@ -69,13 +78,12 @@ const LoadBlogList = async () => {
   'use cache';
   cacheLife('hours');
   cacheTag('blog');
-  //await connection();
 
   const data = await fetchQuery(api.posts.getPosts);
 
   return (
     <div className="grid gap-6 mb-12 md:grid-cols-2 lg:grid-cols-3">
-      {data?.map((post) => (
+      {data?.map((post, index) => (
         <Card className="pt-0" key={post._id}>
           <div className="relative h-48 w-full overflow-hidden">
             <Image
@@ -84,9 +92,9 @@ const LoadBlogList = async () => {
                 'https://res.cloudinary.com/dak4fznwo/image/upload/v1767242402/next-blog/uh7oe6qxtuileqw8rnbm.png'
               }
               fill
-              sizes="lg"
+              sizes="(min-width: 1024px) 33vw, 100vw"
               alt="leaves"
-              loading="eager"
+              loading={index === 0 ? 'eager' : 'lazy'}
               className="rounded-t-lg object-cover"
             />
           </div>

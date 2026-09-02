@@ -13,6 +13,8 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { SITE_URL } from '@/lib/site';
+import { BlurFade } from '@/components/motion/blur-fade';
+import { StaggerContainer, StaggerItem } from '@/components/motion/stagger';
 
 interface PostSlugRouteProps {
   params: Promise<{
@@ -92,32 +94,47 @@ export default async function PostSlugRoute({ params }: PostSlugRouteProps) {
   };
 
   return (
-    <div className="max-w-3xl mx-auto py-8 px-0 md:px-4 animate-in fade-in duration-500 relative">
+    <div className="max-w-3xl mx-auto py-8 px-0 md:px-4 relative">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="flex items-center justify-between gap-4 mb-4">
-        <Link
-          href="/blog"
-          className={cn(buttonVariants({ variant: 'outline' }))}>
-          <ArrowLeft className="size-4" />
-          Back to blog
-        </Link>
-        <PostAuthorActions postId={postId} />
-      </div>
+      <StaggerContainer
+        staggerDelay={0.06}
+        className="flex items-center justify-between gap-4 mb-4">
+        <StaggerItem yOffset={8}>
+          <Link
+            href="/blog"
+            className={cn(buttonVariants({ variant: 'outline' }))}>
+            <ArrowLeft className="size-4" />
+            Back to blog
+          </Link>
+        </StaggerItem>
+        <StaggerItem yOffset={8}>
+          <PostAuthorActions postId={postId} />
+        </StaggerItem>
+      </StaggerContainer>
 
-      <CachedPostArticle postId={postId} />
+      <BlurFade delay={0.08}>
+        <CachedPostArticle postId={postId} />
+      </BlurFade>
 
       {userId && (
-        <div className="flex justify-end -mt-4 mb-2">
-          <PostPresence roomId={postId} userId={userId} />
-        </div>
+        <BlurFade delay={0.12}>
+          <div className="flex justify-end -mt-4 mb-2">
+            <PostPresence roomId={postId} userId={userId} />
+          </div>
+        </BlurFade>
       )}
 
-      <Separator className="my-8" />
-      <CommentSection postId={postId} preloadedComments={preloadedComments} />
+      <BlurFade delay={0.16}>
+        <Separator className="my-8" />
+      </BlurFade>
+
+      <BlurFade delay={0.18}>
+        <CommentSection postId={postId} preloadedComments={preloadedComments} />
+      </BlurFade>
     </div>
   );
 }
