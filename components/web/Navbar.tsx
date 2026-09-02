@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 
 import { authClient } from '@/lib/auth-client';
 import { Button, buttonVariants } from '@/components/ui/button';
+import { CakeStackLogo } from '@/components/web/cakestack-logo';
 import { ThemeToggle } from '@/components/web/ThemeToggle';
 import { SearchInput } from '@/components/web/SearchInput';
 
@@ -44,11 +45,13 @@ const Navbar = () => {
       {/* Left Section */}
       <div className="flex items-center gap-8">
 
-          <h1 className="text-3xl font-bold leading-none">
-            <Link href="/" className="flex items-baseline text-2xl font-semibold text-neutral-900">
-              CakeStack
-            </Link>
-          </h1>
+          <Link
+            href="/"
+            className="flex items-baseline"
+            data-testid="nav-link-home"
+          >
+            <CakeStackLogo size={30} showWordmark />
+          </Link>
 
         <div className="hidden sm:flex items-baseline gap-2 mt-1">
           {navLinks.map((link) => (
