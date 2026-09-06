@@ -50,9 +50,7 @@ export const clearAllJwtSigningKeys = internalMutation({
         await ctx.runMutation(components.betterAuth.adapter.deleteOne, {
           input: {
             model: 'jwks',
-            where: [
-              { field: '_id', operator: 'eq' as const, value: row._id },
-            ],
+            where: [{ field: '_id', operator: 'eq' as const, value: row._id }],
           },
         });
         deleted += 1;

@@ -67,7 +67,9 @@ export async function updateBlogAction(formData: FormData) {
     title: formData.get('title'),
     content: formData.get('content'),
     image:
-      imageEntry instanceof File && imageEntry.size > 0 ? imageEntry : undefined,
+      imageEntry instanceof File && imageEntry.size > 0 ?
+        imageEntry
+      : undefined,
   });
 
   if (!parsed.success) {

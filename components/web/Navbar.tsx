@@ -44,14 +44,12 @@ const Navbar = () => {
     <nav className="w-full py-5 flex items-center justify-between">
       {/* Left Section */}
       <div className="flex items-center gap-8">
-
-          <Link
-            href="/"
-            className="flex items-baseline"
-            data-testid="nav-link-home"
-          >
-            <CakeStackLogo size={30} showWordmark />
-          </Link>
+        <Link
+          href="/"
+          className="flex items-baseline"
+          data-testid="nav-link-home">
+          <CakeStackLogo size={30} showWordmark />
+        </Link>
 
         <div className="hidden sm:flex items-baseline gap-2 mt-1">
           {navLinks.map((link) => (
@@ -62,7 +60,6 @@ const Navbar = () => {
               className={buttonVariants({ variant: 'secondary' })}>
               {link.label}
             </Link>
-
           ))}
         </div>
       </div>

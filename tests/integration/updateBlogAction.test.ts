@@ -67,7 +67,7 @@ describe('updateBlogAction', () => {
     const { updateBlogAction } = await import('@/app/actions');
 
     await expect(updateBlogAction(validFormData())).rejects.toThrow(
-      'NEXT_REDIRECT',
+      'NEXT_REDIRECT'
     );
 
     expect(uploadPostImage).not.toHaveBeenCalled();
@@ -78,7 +78,7 @@ describe('updateBlogAction', () => {
         title: '123456',
         body: '1234567890',
         imageStorageId: undefined,
-      }),
+      })
     );
     expect(redirect).toHaveBeenCalledWith('/blog/my-post');
     expect(revalidateTag).toHaveBeenCalledWith('post:post_123', 'hours');
@@ -96,14 +96,14 @@ describe('updateBlogAction', () => {
       type: 'image/png',
     });
 
-    await expect(
-      updateBlogAction(validFormData({ image })),
-    ).rejects.toThrow('NEXT_REDIRECT');
+    await expect(updateBlogAction(validFormData({ image }))).rejects.toThrow(
+      'NEXT_REDIRECT'
+    );
 
     expect(uploadPostImage).toHaveBeenCalledTimes(1);
     expect(fetchAuthMutation).toHaveBeenCalledWith(
       expect.anything(),
-      expect.objectContaining({ imageStorageId: 'storage_new' }),
+      expect.objectContaining({ imageStorageId: 'storage_new' })
     );
   });
 

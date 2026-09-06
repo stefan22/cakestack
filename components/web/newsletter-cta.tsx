@@ -22,8 +22,8 @@ export function NewsletterCta() {
         {/*One email whenever we publish something worth reading. No spam,*/}
         {/*unsubscribe any time. */}
         Lorem ipsum dolor sit amet, consectetur adipiscingelit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Laboris nisi ut aliquip ex ea
-        commodo consequat.
+        tempor incididunt ut labore et dolore magna aliqua. Laboris nisi ut
+        aliquip ex ea commodo consequat.
       </p>
 
       <form

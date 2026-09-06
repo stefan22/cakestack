@@ -22,10 +22,7 @@ describe('deleteBlogAction', () => {
     fetchAuthMutation.mockResolvedValue(undefined);
 
     const { deleteBlogAction } = await import('@/app/actions');
-    const result = await deleteBlogAction(
-      'post_123' as never,
-      'my-post',
-    );
+    const result = await deleteBlogAction('post_123' as never, 'my-post');
 
     expect(result).toEqual({});
     expect(fetchAuthMutation).toHaveBeenCalledWith(expect.anything(), {
@@ -41,10 +38,7 @@ describe('deleteBlogAction', () => {
     fetchAuthMutation.mockRejectedValue(new Error('Unauthorized'));
 
     const { deleteBlogAction } = await import('@/app/actions');
-    const result = await deleteBlogAction(
-      'post_123' as never,
-      'my-post',
-    );
+    const result = await deleteBlogAction('post_123' as never, 'my-post');
 
     expect(result).toEqual({ error: 'Failed to delete post' });
     expect(revalidateTag).not.toHaveBeenCalled();

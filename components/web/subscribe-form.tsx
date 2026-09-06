@@ -16,9 +16,10 @@ export function SubscribeForm({ className }: { className?: string }) {
         placeholder="You@email.com"
         className="flex w-full p-4"
       />
-      <Button 
+      <Button
         className="flex w-full sm:w-27 p-4"
-        type="submit" variant="default">
+        type="submit"
+        variant="default">
         Subscribe
       </Button>
     </form>

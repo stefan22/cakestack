@@ -22,12 +22,10 @@ export const CakeStackLogo: React.FC<CakeStackLogoProps> = ({
       className={cn('flex items-center gap-1 select-none', className)}
       role="img"
       aria-label="CakeStack"
-      style={style}
-    >
+      style={style}>
       <div
         className="relative flex-shrink-0"
-        style={{ width: size, height: size }}
-      >
+        style={{ width: size, height: size }}>
         <Image
           src="/images/cakestack-bgrm.webp"
           alt=""
@@ -41,8 +39,7 @@ export const CakeStackLogo: React.FC<CakeStackLogoProps> = ({
       {showWordmark && (
         <span
           className="font-semibold tracking-tight text-foreground leading-none"
-          style={{ fontSize: `${size * 0.78}px` }}
-        >
+          style={{ fontSize: `${size * 0.78}px` }}>
           <span className="font-semibold">Cake</span>
           <span className="font-semibold">Stack</span>
         </span>

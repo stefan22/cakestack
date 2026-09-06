@@ -19,8 +19,7 @@ function requireConvexSiteUrl() {
 /** Used to encrypt JWKS private keys; must stay stable unless you rotate & clear JWKS. */
 function requireBetterAuthSecret() {
   const secret =
-    process.env.BETTER_AUTH_SECRET?.trim() ||
-    process.env.AUTH_SECRET?.trim();
+    process.env.BETTER_AUTH_SECRET?.trim() || process.env.AUTH_SECRET?.trim();
   if (!secret) {
     throw new Error(
       'Set Convex env BETTER_AUTH_SECRET (min 32 chars). Generate: openssl rand -base64 32. If you rotated it, clear JWKS (see convex/authJwksMaintenance.ts) or decryption will fail.'
@@ -50,7 +49,7 @@ export const createAuth = (ctx: GenericCtx<DataModel>) => {
         clientId: process.env.GOOGLE_CLIENT_ID as string,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         //redirectUri: `${siteUrl}/api/auth/callback/google`,
-      }
+      },
     },
 
     plugins: [

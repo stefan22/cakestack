@@ -17,9 +17,7 @@ describe('SearchInput', () => {
     await user.type(screen.getByPlaceholderText('Search posts...'), 'a');
 
     expect(useQuery).toHaveBeenLastCalledWith(expect.anything(), 'skip');
-    expect(
-      screen.queryByText('No results found!'),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText('No results found!')).not.toBeInTheDocument();
   });
 
   it('shows a loading state while the query is pending', async () => {

@@ -42,6 +42,7 @@ describe('Navbar Component', () => {
       vi.mocked(useConvexAuth).mockReturnValue({
         isAuthenticated: false,
         isLoading: false,
+        isRefreshing: false,
       });
     });
 
@@ -50,6 +51,7 @@ describe('Navbar Component', () => {
       vi.mocked(useConvexAuth).mockReturnValue({
         isAuthenticated: false,
         isLoading: false,
+        isRefreshing: false,
       });
       //navbar compo
       render(<Navbar />);

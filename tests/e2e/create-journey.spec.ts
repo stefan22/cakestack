@@ -38,7 +38,7 @@ describeCreate('sign up and create post', () => {
     // createBlogAction redirects straight to the new post's detail page.
     await page.waitForURL(/\/blog\/.+$/, { timeout: 60_000 });
     await expect(
-      page.getByRole('heading', { name: title, level: 1 }),
+      page.getByRole('heading', { name: title, level: 1 })
     ).toBeVisible({ timeout: 30_000 });
 
     await page.goto('/blog');

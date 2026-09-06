@@ -36,7 +36,7 @@ describeJourney('sign up, edit, and delete a post', () => {
     // createBlogAction redirects straight to the new post's detail page.
     await page.waitForURL(/\/blog\/.+$/, { timeout: 60_000 });
     await expect(
-      page.getByRole('heading', { name: title, level: 1 }),
+      page.getByRole('heading', { name: title, level: 1 })
     ).toBeVisible({ timeout: 30_000 });
 
     // Edit: only the post's own author sees these actions.
@@ -47,7 +47,7 @@ describeJourney('sign up, edit, and delete a post', () => {
 
     await page.waitForURL(/\/blog\/.+$/, { timeout: 30_000 });
     await expect(
-      page.getByRole('heading', { name: updatedTitle, level: 1 }),
+      page.getByRole('heading', { name: updatedTitle, level: 1 })
     ).toBeVisible({ timeout: 30_000 });
 
     // Delete: confirm() must be accepted for the action to run.
@@ -55,8 +55,6 @@ describeJourney('sign up, edit, and delete a post', () => {
     await page.getByRole('button', { name: 'Delete' }).click();
 
     await page.waitForURL(/\/blog$/, { timeout: 30_000 });
-    await expect(
-      page.getByRole('link', { name: updatedTitle }),
-    ).toHaveCount(0);
+    await expect(page.getByRole('link', { name: updatedTitle })).toHaveCount(0);
   });
 });

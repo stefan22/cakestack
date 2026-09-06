@@ -9,10 +9,7 @@ import { authComponent } from './auth';
 import { Doc } from './_generated/dataModel';
 import { uniqueSlug } from './slug';
 
-async function isSlugTaken(
-  ctx: QueryCtx,
-  candidate: string
-): Promise<boolean> {
+async function isSlugTaken(ctx: QueryCtx, candidate: string): Promise<boolean> {
   const existing = await ctx.db
     .query('posts')
     .withIndex('by_slug', (q) => q.eq('slug', candidate))

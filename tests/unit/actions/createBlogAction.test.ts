@@ -50,10 +50,7 @@ describe('createBlogAction', () => {
     const formData = new FormData();
     formData.append('title', 'short');
     formData.append('content', '1234567890');
-    formData.append(
-      'image',
-      new File([], 'cover.png', { type: 'image/png' })
-    );
+    formData.append('image', new File([], 'cover.png', { type: 'image/png' }));
 
     const result = await createBlogAction(formData);
 

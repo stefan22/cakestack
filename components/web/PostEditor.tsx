@@ -20,7 +20,7 @@ import { postSchema, updatePostSchema } from '@/app/schemas/blog';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { useState, useTransition } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
 
 type CreateValues = z.infer<typeof postSchema>;
@@ -65,7 +65,7 @@ export function PostEditor(props: PostEditorProps) {
         },
   });
 
-  const content = form.watch('content');
+  const content = useWatch({ control: form.control, name: 'content' });
 
   function onSubmit(values: CreateValues | UpdateValues) {
     setSubmitError(null);
@@ -108,9 +108,7 @@ export function PostEditor(props: PostEditorProps) {
       <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup className="gap-y-4">
-            {!isCreate && (
-              <input type="hidden" {...form.register('postId')} />
-            )}
+            {!isCreate && <input type="hidden" {...form.register('postId')} />}
 
             <Controller
               name="title"

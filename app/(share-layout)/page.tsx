@@ -7,7 +7,6 @@ import { SubscribeForm } from '@/components/web/subscribe-form';
 import { posts } from '@/lib/blog-data';
 
 export default async function Home() {
-
   return (
     <div className="flex mb-12 flex-col">
       {/* Hero Section */}
@@ -43,7 +42,9 @@ export default async function Home() {
             </p>
           </StaggerItem>
 
-          <StaggerItem yOffset={16} className="w-full sm:flex justify-center items-center">
+          <StaggerItem
+            yOffset={16}
+            className="w-full sm:flex justify-center items-center">
             <SubscribeForm className="flex flex-col items-center sm:w-120 mt-10 mb-20 gap-4 sm:flex-row" />
           </StaggerItem>
         </StaggerContainer>

@@ -22,8 +22,6 @@ const geistMono = Geist_Mono({
 const DEFAULT_TITLE = 'CakeStack';
 const DEFAULT_DESCRIPTION =
   'Essays and field notes on front-end craft, product decisions, and the small details that make software feel considered.';
-// Falls back to this on any page that doesn't set its own openGraph/twitter
-// images (e.g. the homepage), so shares never render with a blank preview.
 const DEFAULT_OG_IMAGE = '/covers/screenshot.png';
 
 export const metadata: Metadata = {
@@ -73,7 +71,7 @@ export default function RootLayout({
             containerAriaLabel="Notifications"
           />
         </ThemeProvider>
-      <Analytics />
+        <Analytics />
       </body>
       <GoogleAnalytics gaId="G-5721MB1ZSH" />
     </html>

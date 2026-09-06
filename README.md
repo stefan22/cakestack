@@ -47,21 +47,19 @@ npm run dev
    - `BETTER_AUTH_SECRET`, `AUTH_JWKS_URL`
 2. Set Convex `SITE_URL`, `BETTER_AUTH_SECRET` envs.
 
-
 #### Syncs dev back to match prod
+
 ```zsh
 //convex
 
-npx convex export --prod --include-file-storage 
-npx convex import --replace 
+npx convex export --prod --include-file-storage
+npx convex import --replace
 ```
-
 
 <br /><br />
 
-
 #### [Screenshot]
 
----------------------------
+---
 
 <img src="/public/covers/screenshot.png" alt="app initial screenshot" width="750" height="auto">

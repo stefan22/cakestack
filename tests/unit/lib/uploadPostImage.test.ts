@@ -23,7 +23,7 @@ describe('uploadPostImage', () => {
     vi.mocked(fetch).mockResolvedValue(
       new Response(JSON.stringify({ storageId: 'storage_abc' }), {
         status: 200,
-      }),
+      })
     );
 
     const result = await uploadPostImage(fakeImage());
@@ -34,7 +34,7 @@ describe('uploadPostImage', () => {
       expect.objectContaining({
         method: 'POST',
         headers: { 'Content-Type': 'image/png' },
-      }),
+      })
     );
   });
 

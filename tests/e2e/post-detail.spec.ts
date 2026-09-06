@@ -7,6 +7,8 @@ test.describe('post detail', () => {
     test.skip(!slug, 'Set E2E_POST_SLUG to a real post slug to run this test');
     await page.goto(`/blog/${slug}`);
     await expect(page.getByText('No post found')).not.toBeVisible();
-    await expect(page.getByRole('link', { name: 'Back to blog' })).toBeVisible();
+    await expect(
+      page.getByRole('link', { name: 'Back to blog' })
+    ).toBeVisible();
   });
 });

@@ -27,15 +27,13 @@ describe('slugify', () => {
 describe('uniqueSlug', () => {
   it('returns the base slug when it is free', async () => {
     const taken = async () => false;
-    await expect(uniqueSlug('My New Post', taken)).resolves.toBe(
-      'my-new-post',
-    );
+    await expect(uniqueSlug('My New Post', taken)).resolves.toBe('my-new-post');
   });
 
   it('appends -2 when the base slug is taken once', async () => {
     const taken = async (candidate: string) => candidate === 'my-new-post';
     await expect(uniqueSlug('My New Post', taken)).resolves.toBe(
-      'my-new-post-2',
+      'my-new-post-2'
     );
   });
 

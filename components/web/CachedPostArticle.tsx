@@ -9,11 +9,7 @@ import { cacheLife, cacheTag } from 'next/cache';
 const FALLBACK_IMAGE =
   'https://res.cloudinary.com/dak4fznwo/image/upload/v1767242402/next-blog/uh7oe6qxtuileqw8rnbm.png';
 
-export async function CachedPostArticle({
-  postId,
-}: {
-  postId: Id<'posts'>;
-}) {
+export async function CachedPostArticle({ postId }: { postId: Id<'posts'> }) {
   'use cache';
   cacheLife('hours');
   cacheTag('blog');
@@ -22,9 +18,7 @@ export async function CachedPostArticle({
   const post = await fetchQuery(api.posts.getPostById, { postId });
 
   if (!post) {
-    return (
-      <h1 className="text-3xl text-red-500 py-10">No post found</h1>
-    );
+    return <h1 className="text-3xl text-red-500 py-10">No post found</h1>;
   }
 
   const postedAt = post.updatedAt ?? post._creationTime;
