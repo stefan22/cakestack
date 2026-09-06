@@ -53,3 +53,10 @@ CLAUDE.md
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+tsconfig.tsbuildinfo
+skills
+skills-lock.json
+.agents
+.next
+.vscode
+prod-snapshot.zip

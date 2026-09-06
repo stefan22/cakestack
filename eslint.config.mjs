@@ -8,6 +8,13 @@ const eslintConfig = defineConfig([
   ...nextTs,
   prettier,
   // Override default ignores of eslint-config-next.
+  {
+    rules: {
+      '@typescript-eslint/no-unused-vars': 0,
+      '@typescript-eslint/no-explicit-any': 0,
+      'import/no-anonymous-default-export': 0,
+    },
+  },
   globalIgnores([
     // Default ignores of eslint-config-next:
     '.next/**',

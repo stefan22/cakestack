@@ -9,7 +9,7 @@ File upload Convex • Caching • Re-validation: Time-based/ On-demand • Imag
 Real-time comments Convex DB • Convex Presence (user status, # of online users) •
 Markdown Editor
 
-### Tech Stack
+## Tech Stack
 
 Next.js •
 Typescript •
@@ -27,7 +27,7 @@ Prettier
 npm run dev
 ```
 
-### Quick Start
+## How to run
 
 ```
  npm install //clone & install dependencies
@@ -39,42 +39,29 @@ npm run dev
 // Open http://localhost:3000
 ```
 
-![screenshot.png](/public/covers/screenshot.png)
+## Deploy to Vercel, Netlify, Clouflare
 
-### Deploy to Netlify (production)
-
-Production URL: `https://blognext.netlify.app`
-
-1. Connect the repo in Netlify; build settings come from [`netlify.toml`](netlify.toml).
-2. Set production environment variables (see [`.env.example`](.env.example)):
+1. Set production environment variables (see [`.env.example`](.env.example)):
    - `CONVEX_DEPLOY_KEY`, `NEXT_PUBLIC_CONVEX_URL`, `NEXT_PUBLIC_CONVEX_SITE_URL`
-   - `NEXT_PUBLIC_SITE_URL` and `SITE_URL` = `https://blognext.netlify.app`
+   - `NEXT_PUBLIC_SITE_URL` and `SITE_URL`
    - `BETTER_AUTH_SECRET`, `AUTH_JWKS_URL`
-3. Set matching vars on the Convex production deployment (`SITE_URL`, `BETTER_AUTH_SECRET`, Google OAuth secrets).
-4. Google OAuth redirect URI: `https://blognext.netlify.app/api/auth/callback/google`
-5. Deploy previews are disabled in `netlify.toml` (production only).
+2. Set Convex `SITE_URL`, `BETTER_AUTH_SECRET` envs.
 
-Local dry run:
 
-```bash
-npm run build:netlify
+#### Syncs dev back to match prod
+```zsh
+//convex
+
+npx convex export --prod --include-file-storage 
+npx convex import --replace 
 ```
 
-### Deploy to Netlify (production)
 
-Production URL: `https://blognext.netlify.app`
+<br /><br />
 
-1. Connect the repo in Netlify; build settings come from [`netlify.toml`](netlify.toml).
-2. Set production environment variables (see [`.env.example`](.env.example)):
-   - `CONVEX_DEPLOY_KEY`, `NEXT_PUBLIC_CONVEX_URL`, `NEXT_PUBLIC_CONVEX_SITE_URL`
-   - `NEXT_PUBLIC_SITE_URL` and `SITE_URL` = `https://blognext.netlify.app`
-   - `BETTER_AUTH_SECRET`, `AUTH_JWKS_URL`
-3. Set matching vars on the Convex production deployment (`SITE_URL`, `BETTER_AUTH_SECRET`, Google OAuth secrets).
-4. Google OAuth redirect URI: `https://blognext.netlify.app/api/auth/callback/google`
-5. Deploy previews are disabled in `netlify.toml` (production only).
 
-Local dry run:
+#### [Screenshot]
 
-```bash
-npm run build:netlify
-```
+---------------------------
+
+<img src="/public/covers/screenshot.png" alt="app initial screenshot" width="750" height="auto">
