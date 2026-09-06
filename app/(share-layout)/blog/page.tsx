@@ -1,17 +1,18 @@
-import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card';
-import { buttonVariants } from '@/components/ui/button';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { api } from '@/convex/_generated/api';
 import { fetchQuery } from 'convex/nextjs';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Suspense } from 'react';
 import { cacheLife, cacheTag } from 'next/cache';
 import { Metadata } from 'next';
 import { stripMarkdown } from '@/lib/markdown';
-import { cn } from '@/lib/utils';
 import { BlurFade } from '@/components/motion/blur-fade';
 import { StaggerContainer, StaggerItem } from '@/components/motion/stagger';
+import {
+  BlogCoverFooter,
+  BlogCoverLink,
+} from '@/components/web/blog-cover-link';
 
 const TITLE = 'CakeStack Dev Blog';
 const DESCRIPTION = 'Web Development Posts';
@@ -82,19 +83,7 @@ const LoadBlogList = async () => {
     <div className="grid w-full gap-6 mb-12 md:grid-cols-2 lg:grid-cols-3">
       {data?.map((post, index) => (
         <Card className="w-full pt-0" key={post._id}>
-          <div className="relative h-48 w-full overflow-hidden">
-            <Image
-              src={
-                post.imageUrl ??
-                'https://res.cloudinary.com/dak4fznwo/image/upload/v1767242402/next-blog/uh7oe6qxtuileqw8rnbm.png'
-              }
-              fill
-              sizes="(min-width: 1024px) 33vw, 100vw"
-              alt="leaves"
-              loading={index === 0 ? 'eager' : 'lazy'}
-              className="rounded-t-lg object-cover"
-            />
-          </div>
+          <BlogCoverLink post={post} priority={index === 0} />
 
           <CardTitle>
             <h1 className="text-2xl font-bold hover:text-primary px-4">
@@ -106,18 +95,8 @@ const LoadBlogList = async () => {
               {stripMarkdown(post.body)}
             </p>
           </CardContent>
-          <CardFooter>
-            <Link
-              className={cn(
-                buttonVariants({
-                  className: 'w-full',
-                  size: 'lg',
-                })
-              )}
-              href={`/blog/${post.slug ?? post._id}`}>
-              Read more
-            </Link>
-          </CardFooter>
+
+          <BlogCoverFooter post={post} />
         </Card>
       ))}
     </div>

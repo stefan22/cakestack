@@ -44,7 +44,7 @@ yarn-error.log*
 !.env.example
 .env.local
 # vercel
-.vercel
+#.vercel
 
 
 AGENTS.md
@@ -53,11 +53,11 @@ CLAUDE.md
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-tsconfig.tsbuildinfo
 skills
+tsconfig.tsbuildinfo
 skills-lock.json
 .agents
 .next
-.vscode
+#.vscode
 prod-snapshot.zip
 scripts

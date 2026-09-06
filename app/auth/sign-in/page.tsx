@@ -66,22 +66,20 @@ export default function SignInPage() {
   return (
     <div className="py-8">
       <div className="relative flex overflow-hidden mx-auto lg:max-w-4xl">
-        <BlurFade delay={0.04} yOffset={0} blur="0px" className="flex">
-          <Image
-            src={
-              'https://res.cloudinary.com/dak4fznwo/image/upload/v1767237743/blog-mern/banners/man-on-a-street.jpg'
-            }
-            width={1920}
-            height={620}
-            sizes="(min-width: 1024px) 50vw, 0px"
-            alt="Sign In page"
-            loading="eager"
-            className="hidden md:block object-cover max-w-md rounded-tl-lg rounded-bl-lg"
-          />
-        </BlurFade>
+        <Image
+          src={
+            'https://res.cloudinary.com/dak4fznwo/image/upload/v1767237743/blog-mern/banners/man-on-a-street.jpg'
+          }
+          width={1920}
+          height={620}
+          sizes="(min-width: 1024px) 50vw, 0px"
+          alt="Sign In page"
+          priority
+          className="hidden md:block object-cover max-w-md rounded-tl-lg rounded-bl-lg"
+        />
 
         <div className="w-full p-0 md:px-4 md:py-2 lg:w-1/2">
-          <StaggerContainer staggerDelay={0.08} className="mb-5">
+          <StaggerContainer staggerDelay={0.08} className="mb-12">
             <StaggerItem yOffset={14}>
               <h1 className="text-4xl mt-4 font-semibold text-gray-700 text-center">
                 Welcome back! <br />
@@ -125,7 +123,7 @@ export default function SignInPage() {
                                   size: 'lg',
                                   variant: 'outline',
                                 }),
-                                '!text-[16px] md:!text-sm'
+                                'text-[16px]! md:text-sm!'
                               )}
                               aria-invalid={fieldState.invalid}
                               type="email"
@@ -155,7 +153,7 @@ export default function SignInPage() {
                                   size: 'lg',
                                   variant: 'outline',
                                 }),
-                                '!text-[16px] md:!text-sm'
+                                'text-[16px]! md:text-sm!'
                               )}
                               aria-invalid={fieldState.invalid}
                               type="password"

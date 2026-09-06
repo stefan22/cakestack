@@ -71,19 +71,17 @@ export default function SignUpPage() {
   return (
     <div className="py-8">
       <div className="relative flex overflow-hidden mx-auto lg:max-w-4xl">
-        <BlurFade delay={0.04} yOffset={0} blur="0px" className="flex">
-          <Image
-            src={
-              'https://res.cloudinary.com/dak4fznwo/image/upload/v1767242722/next-blog/idcskllvhntoqtuqsot2.png'
-            }
-            width={1920}
-            height={620}
-            sizes="(min-width: 1024px) 50vw, 0px"
-            alt="Sign Up page"
-            loading="eager"
-            className="hidden md:block object-cover max-w-md rounded-tl-lg rounded-bl-lg"
-          />
-        </BlurFade>
+        <Image
+          src={
+            'https://res.cloudinary.com/dak4fznwo/image/upload/v1767242722/next-blog/idcskllvhntoqtuqsot2.png'
+          }
+          width={1920}
+          height={620}
+          sizes="(min-width: 1024px) 50vw, 0px"
+          alt="Sign Up page"
+          priority
+          className="hidden md:block object-cover max-w-md rounded-tl-lg rounded-bl-lg"
+        />
 
         <div className="w-full p-0 md:px-4 md:py-2 lg:w-1/2">
           <StaggerContainer staggerDelay={0.08}>
@@ -130,7 +128,7 @@ export default function SignUpPage() {
                                   size: 'lg',
                                   variant: 'outline',
                                 }),
-                                '!text-[16px] md:!text-sm'
+                                'text-[16px]! md:text-sm!'
                               )}
                               aria-invalid={fieldState.invalid}
                               type="text"
@@ -162,7 +160,7 @@ export default function SignUpPage() {
                                   size: 'lg',
                                   variant: 'outline',
                                 }),
-                                '!text-[16px] md:!text-sm'
+                                'text-[16px]! md:text-sm!'
                               )}
                               aria-invalid={fieldState.invalid}
                               type="email"
@@ -192,7 +190,7 @@ export default function SignUpPage() {
                                   size: 'lg',
                                   variant: 'outline',
                                 }),
-                                '!text-[16px] md:!text-sm'
+                                'text-[16px]! md:text-sm!'
                               )}
                               aria-invalid={fieldState.invalid}
                               type="password"
