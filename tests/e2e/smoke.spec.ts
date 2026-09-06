@@ -1,13 +1,11 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('smoke navigation', () => {
-  test('home shows hero and write action', async ({ page }) => {
+  test('home shows the brand and hero heading', async ({ page }) => {
     await page.goto('/');
+    await expect(page.getByRole('img', { name: 'CakeStack' })).toBeVisible();
     await expect(
-      page.getByRole('heading', { name: 'CakeStack', exact: true })
-    ).toBeVisible();
-    await expect(
-      page.getByRole('link', { name: 'Write a Post' })
+      page.getByRole('heading', { name: 'Ideas on lorem, and building' })
     ).toBeVisible();
   });
 

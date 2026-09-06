@@ -5,7 +5,7 @@ test.describe('navbar search', () => {
 
   test('search shows dropdown or empty state after typing', async ({ page }) => {
     await page.goto('/');
-    const search = page.getByPlaceholder('Search...');
+    const search = page.getByPlaceholder('Search posts...');
     await expect(search).toBeVisible();
     await search.fill('ab');
 
