@@ -15,7 +15,7 @@ import {
   Textarea,
   buttonVariants,
 } from '@/components/ui';
-import { MarkdownPreview } from '@/components/web/MarkdownPreview';
+import { MarkdownPreview } from '@/components/web/markdown-preview';
 import { postSchema, updatePostSchema } from '@/app/schemas/blog';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';

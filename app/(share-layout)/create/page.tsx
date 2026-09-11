@@ -1,4 +1,4 @@
-import { PostEditor } from '@/components/web/PostEditor';
+import { PostEditor } from '@/components/web/post-editor';
 import { createBlogAction } from '@/app/actions';
 import { StaggerContainer, StaggerItem } from '@/components/motion/stagger';
 import { BlurFade } from '@/components/motion/blur-fade';

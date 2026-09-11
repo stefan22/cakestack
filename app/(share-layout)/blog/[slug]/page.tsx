@@ -1,8 +1,8 @@
 import { buttonVariants, Separator } from '@/components/ui';
-import { CachedPostArticle } from '@/components/web/CachedPostArticle';
-import { PostAuthorActions } from '@/components/web/PostAuthorActions';
-import { CommentSection } from '@/components/web/CommentSection';
-import { PostPresence } from '@/components/web/PostPresence';
+import { CachedPostArticle } from '@/components/web/cached-post-article';
+import { PostAuthorActions } from '@/components/web/post-author-actions';
+import { CommentSection } from '@/components/web/comment-section';
+import { PostPresence } from '@/components/web/post-presence';
 import { api } from '@/convex/_generated/api';
 import { fetchAuthQuery } from '@/lib/auth-server';
 import { stripMarkdown } from '@/lib/markdown';

@@ -1,7 +1,9 @@
+'use client';
+
 import { ArrowRight } from 'lucide-react';
 
 import { BlurFade } from '@/components/motion/blur-fade';
-import { RobotIllustration } from '@/components/web/robot-illustration';
+import { RobotHero } from '@/components/web/robot-hero';
 import { Button } from '@/components/ui/button';
 
 export function CtaSection() {
@@ -49,7 +51,7 @@ export function CtaSection() {
           </div>
 
           <div className="relative flex justify-center pt-4 lg:justify-end">
-            <RobotIllustration className="w-full max-w-[220px] transition-transform duration-300 group-hover:scale-105 sm:max-w-[260px]" />
+            <RobotHero className="w-full max-w-[220px] transition-transform duration-300 group-hover:scale-105 sm:max-w-[260px]" />
           </div>
         </div>
       </div>

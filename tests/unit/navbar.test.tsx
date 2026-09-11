@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { vi } from 'vitest';
 import { useConvexAuth } from 'convex/react';
-import Navbar from '../../components/web/Navbar';
+import Navbar from '../../components/web/navbar';
 import { render, screen } from '@testing-library/react';
 
 // mock convex lib - top level req

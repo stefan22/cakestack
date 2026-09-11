@@ -1,5 +1,5 @@
 import { Separator } from '@/components/ui';
-import { PostBody } from '@/components/web/PostBody';
+import { PostBody } from '@/components/web/post-body';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { fetchQuery } from 'convex/nextjs';

@@ -9,8 +9,8 @@ import { toast } from 'sonner';
 import { authClient } from '@/lib/auth-client';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { CakeStackLogo } from '@/components/web/cakestack-logo';
-import { ThemeToggle } from '@/components/web/ThemeToggle';
-import { SearchInput } from '@/components/web/SearchInput';
+import { ThemeToggle } from '@/components/web/theme-toggle';
+import { SearchInput } from '@/components/web/search-input';
 
 const Navbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();

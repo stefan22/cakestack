@@ -2,12 +2,8 @@
 
 import { motion } from 'motion/react';
 
-/**
- * Original illustration for the CTA band — not a copy of any product's
- * mascot art, just a friendly geometric bot with a small idle float/sway
- * loop so the section still feels alive once its entrance animation settles.
- */
-export function RobotIllustration({ className }: { className?: string }) {
+
+export function RobotHero({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 320 320"
@@ -56,6 +52,7 @@ export function RobotIllustration({ className }: { className?: string }) {
           fill="white"
           fillOpacity="0.95"
         />
+
         <rect
           x="124"
           y="98"

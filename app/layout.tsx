@@ -5,7 +5,7 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import { Inter, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ui/theme-provider';
-import { ConvexClientProvider } from '@/components/web/ConvexClientProvider';
+import { ConvexClientProvider } from '@/components/web/convex-client-provider';
 import { Toaster } from '@/components/ui';
 import { SITE_URL } from '@/lib/site';
 

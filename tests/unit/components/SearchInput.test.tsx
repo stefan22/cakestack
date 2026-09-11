@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { useQuery } from 'convex/react';
-import { SearchInput } from '@/components/web/SearchInput';
+import { SearchInput } from '@/components/web/search-input';
 
 vi.mock('convex/react', () => ({
   useQuery: vi.fn(),

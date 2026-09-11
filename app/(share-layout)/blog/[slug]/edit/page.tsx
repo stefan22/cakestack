@@ -1,4 +1,4 @@
-import { PostEditor } from '@/components/web/PostEditor';
+import { PostEditor } from '@/components/web/post-editor';
 import { updateBlogAction } from '@/app/actions';
 import { api } from '@/convex/_generated/api';
 import { fetchAuthQuery } from '@/lib/auth-server';
