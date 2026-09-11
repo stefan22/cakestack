@@ -3,6 +3,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import { CakeStack } from '@/components/web/cake-stack';
 
 export interface CakeStackLogoProps {
   size?: number;
@@ -19,12 +20,13 @@ export const CakeStackLogo: React.FC<CakeStackLogoProps> = ({
 }) => {
   return (
     <div
+      id="cakestack"
       className={cn('flex items-center gap-1 select-none', className)}
       role="img"
       aria-label="CakeStack"
       style={style}>
       <div
-        className="relative flex-shrink-0"
+        className="relative shrink-0"
         style={{ width: size, height: size }}>
         <Image
           src="/images/cakestack-bgrm.webp"
@@ -37,12 +39,10 @@ export const CakeStackLogo: React.FC<CakeStackLogoProps> = ({
       </div>
 
       {showWordmark && (
-        <span
-          className="font-semibold tracking-tight text-foreground leading-none"
-          style={{ fontSize: `${size * 0.78}px` }}>
-          <span className="font-semibold">Cake</span>
-          <span className="font-semibold">Stack</span>
-        </span>
+        <CakeStack
+          className="w-auto text-foreground"
+          style={{ height: `${size * 0.62}px` }}
+        />
       )}
     </div>
   );

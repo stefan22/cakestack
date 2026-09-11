@@ -2,8 +2,15 @@
 
 import { motion } from 'motion/react';
 
+import { RobotHair } from '@/components/web/robot-hair';
 
-export function RobotHero({ className }: { className?: string }) {
+export function RobotHero({
+  className,
+  hovered = false,
+}: {
+  className?: string;
+  hovered?: boolean;
+}) {
   return (
     <svg
       viewBox="0 0 320 320"
@@ -52,6 +59,8 @@ export function RobotHero({ className }: { className?: string }) {
           fill="white"
           fillOpacity="0.95"
         />
+
+        <RobotHair active={hovered} />
 
         <rect
           x="124"
