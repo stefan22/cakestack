@@ -1,18 +1,32 @@
 'use client';
 
-import { motion } from 'motion/react';
+import { motion, useInView } from 'motion/react';
+import { useRef, type RefObject } from 'react';
 
+import { RobotEyes } from '@/components/web/robot-eyes';
 import { RobotHair } from '@/components/web/robot-hair';
 
 export function RobotHero({
   className,
   hovered = false,
+  boundsRef,
 }: {
   className?: string;
   hovered?: boolean;
+  boundsRef: RefObject<HTMLElement | null>;
 }) {
+  const svgRef = useRef<SVGSVGElement>(null);
+  // These loops repeat forever, so off-screen they would keep Motion's frame
+  // loop alive and repainting for nothing. The margin resumes them just
+  // before the robot scrolls back into view.
+  const alive = useInView(svgRef, { margin: '200px' });
+  /** Off-screen, settle once and stop — a repeating transition would keep the
+   *  animation alive even when its target is a single static value. */
+  const settle = { duration: 0.4 };
+
   return (
     <svg
+      ref={svgRef}
       viewBox="0 0 320 320"
       className={className}
       fill="none"
@@ -29,13 +43,19 @@ export function RobotHero({
       />
 
       <motion.g
-        animate={{ y: [0, -8, 0] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}>
+        animate={alive ? { y: [0, -8, 0] } : { y: 0 }}
+        transition={
+          alive ? { duration: 4, repeat: Infinity, ease: 'easeInOut' } : settle
+        }>
         {/* antenna */}
         <motion.g
           style={{ transformOrigin: '160px 70px' }}
-          animate={{ rotate: [-4, 4, -4] }}
-          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}>
+          animate={alive ? { rotate: [-4, 4, -4] } : { rotate: 0 }}
+          transition={
+            alive ?
+              { duration: 3, repeat: Infinity, ease: 'easeInOut' }
+            : settle
+          }>
           <line
             x1="160"
             y1="70"
@@ -78,22 +98,7 @@ export function RobotHero({
           rx="15"
           fill="oklch(0.25 0.02 260)"
         />
-        <rect
-          x="130"
-          y="108"
-          width="10"
-          height="10"
-          rx="5"
-          fill="var(--color-glow)"
-        />
-        <rect
-          x="172"
-          y="108"
-          width="10"
-          height="10"
-          rx="5"
-          fill="var(--color-glow)"
-        />
+        <RobotEyes boundsRef={boundsRef} />
 
         {/* body */}
         <rect
@@ -113,9 +118,29 @@ export function RobotHero({
           rx="12"
           fill="oklch(0.25 0.02 260)"
         />
-        <circle cx="140" cy="219" r="6" fill="var(--color-glow)" />
-        <circle cx="160" cy="219" r="6" fill="white" fillOpacity="0.5" />
-        <circle cx="180" cy="219" r="6" fill="white" fillOpacity="0.5" />
+        <circle
+          data-robot-dot="1"
+          cx="140"
+          cy="219"
+          r="6"
+          fill="var(--color-glow)"
+        />
+        <circle
+          data-robot-dot="2"
+          cx="160"
+          cy="219"
+          r="6"
+          fill="white"
+          fillOpacity="0.5"
+        />
+        <circle
+          data-robot-dot="3"
+          cx="180"
+          cy="219"
+          r="6"
+          fill="white"
+          fillOpacity="0.5"
+        />
 
         {/* arms */}
         <rect
@@ -129,13 +154,17 @@ export function RobotHero({
         />
         <motion.g
           style={{ transformOrigin: '246px 190px' }}
-          animate={{ rotate: [0, -18, 0] }}
-          transition={{
-            duration: 2.4,
-            repeat: Infinity,
-            ease: 'easeInOut',
-            delay: 0.5,
-          }}>
+          animate={alive ? { rotate: [0, -18, 0] } : { rotate: 0 }}
+          transition={
+            alive ?
+              {
+                duration: 2.4,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: 0.5,
+              }
+            : settle
+          }>
           <rect
             x="232"
             y="182"
@@ -174,34 +203,46 @@ export function RobotHero({
         cy="120"
         r="4"
         fill="var(--color-glow)"
-        animate={{ opacity: [0.2, 1, 0.2] }}
-        transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+        animate={alive ? { opacity: [0.2, 1, 0.2] } : { opacity: 0.2 }}
+        transition={
+          alive ?
+            { duration: 2.2, repeat: Infinity, ease: 'easeInOut' }
+          : settle
+        }
       />
       <motion.circle
         cx="256"
         cy="150"
         r="3"
         fill="white"
-        animate={{ opacity: [0.15, 0.8, 0.15] }}
-        transition={{
-          duration: 2.6,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          delay: 0.6,
-        }}
+        animate={alive ? { opacity: [0.15, 0.8, 0.15] } : { opacity: 0.15 }}
+        transition={
+          alive ?
+            {
+              duration: 2.6,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              delay: 0.6,
+            }
+          : settle
+        }
       />
       <motion.circle
         cx="242"
         cy="90"
         r="2.5"
         fill="var(--color-glow)"
-        animate={{ opacity: [0.2, 1, 0.2] }}
-        transition={{
-          duration: 1.8,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          delay: 1.1,
-        }}
+        animate={alive ? { opacity: [0.2, 1, 0.2] } : { opacity: 0.2 }}
+        transition={
+          alive ?
+            {
+              duration: 1.8,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              delay: 1.1,
+            }
+          : settle
+        }
       />
     </svg>
   );

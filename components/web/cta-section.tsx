@@ -1,7 +1,7 @@
 'use client';
 
 import { ArrowRight } from 'lucide-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { BlurFade } from '@/components/motion/blur-fade';
 import { RobotHero } from '@/components/web/robot-hero';
@@ -9,10 +9,12 @@ import { Button } from '@/components/ui/button';
 
 export function CtaSection() {
   const [isHovered, setIsHovered] = useState(false);
+  const bannerRef = useRef<HTMLDivElement>(null);
 
   return (
     <BlurFade inView yOffset={50} blur="10px" duration={0.7}>
       <div
+        ref={bannerRef}
         className="group relative isolate overflow-hidden rounded-2xl"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}>
@@ -59,6 +61,7 @@ export function CtaSection() {
           <div className="relative flex justify-center pt-4 lg:justify-end">
             <RobotHero
               hovered={isHovered}
+              boundsRef={bannerRef}
               className="w-full max-w-[220px] transition-transform duration-300 group-hover:scale-105 sm:max-w-[260px]"
             />
           </div>
