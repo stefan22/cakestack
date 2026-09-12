@@ -104,6 +104,12 @@
   --prose-bold: #328ccc;
   --prose-pre-bg: #333232;
   --prose-pre-code: #fff;
+
+  /* panels */
+  --panel-width: calc(100% / 6);
+  --darkblue: #02020c;
+  --white: #fff;
+  --lightgray: #fafafb;
 }
 
 .dark {
@@ -169,7 +175,6 @@
   /* end of layer base */
 }
 
-
 @utility container {
   @apply mx-auto max-w-350 px-4 lg:px-8;
 }
@@ -187,5 +192,61 @@
     --tw-prose-invert-pre-bg: var(--prose-pre-bg);
     --tw-prose-pre-code: var(--prose-pre-code);
     --tw-prose-invert-pre-code: var(--prose-pre-code);
+  }
+}
+
+/* all panels */
+.panels {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  width: 180vw;
+  height: 100%;
+  transform: translateX(-50%) skewX(-35deg);
+  clip-path: circle(100%);
+  z-index: 1;
+  background: var(--lightgray);
+  pointer-events: none;
+  /* Hidden in the server-rendered markup. GSAP reveals it for the length of
+     the wipe and hides it again, so the overlay can never be left covering
+     the page — including when JS never runs. */
+  visibility: hidden;
+}
+.panels .panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--panel-width);
+  transform: scaleY(0);
+  transform-origin: top;
+  background: var(--darkblue);
+}
+.panels .panel:nth-child(even) {
+  transform-origin: bottom;
+}
+.panels .panel:nth-child(2) {
+  left: calc(var(--panel-width) - 1px);
+}
+.panels .panel:nth-child(3) {
+  left: calc(calc(var(--panel-width) * 2) - 2px);
+}
+.panels .panel:nth-child(4) {
+  left: calc(calc(var(--panel-width) * 3) - 4px);
+}
+.panels .panel:nth-child(5) {
+  left: calc(calc(var(--panel-width) * 4) - 5px);
+}
+.panels .panel:nth-child(6) {
+  left: calc(calc(var(--panel-width) * 5) - 6px);
+}
+@media (max-width: 1024px) {
+  .panels {
+    width: 200vw;
+  }
+}
+@media screen and (max-width: 600px) {
+  .panels {
+    width: 235vw;
   }
 }

@@ -7,7 +7,7 @@ import { BlurFade } from '@/components/motion/blur-fade';
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="relative min-h-screen mb-0 w-full flex items-center justify-center">
+    <div className="relative mx-auto min-h-screen mb-0 w-full max-w-7xl flex items-center justify-center px-4 md:px-6 lg:px-8">
       <div className="absolute top-5 left-5">
         <Link href="/" className={cn(buttonVariants({ variant: 'secondary' }))}>
           <ArrowLeft className="size-4" />

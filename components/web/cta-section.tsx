@@ -6,6 +6,7 @@ import { useRef, useState } from 'react';
 import { BlurFade } from '@/components/motion/blur-fade';
 import { RobotHero } from '@/components/web/robot-hero';
 import { Button } from '@/components/ui/button';
+import { WipeCountdown } from '@/components/web/wipe-countdown';
 
 export function CtaSection() {
   const [isHovered, setIsHovered] = useState(false);
@@ -66,6 +67,9 @@ export function CtaSection() {
             />
           </div>
         </div>
+
+        <WipeCountdown />
+
       </div>
     </BlurFade>
   );

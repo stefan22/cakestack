@@ -3,6 +3,7 @@
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
+import { useInView } from 'motion/react';
 import type * as React from 'react';
 import { useRef } from 'react';
 
@@ -10,6 +11,9 @@ gsap.registerPlugin(useGSAP, DrawSVGPlugin);
 
 // "CakeStack" set in Inter (SIL Open Font License), converted to outlines so
 // DrawSVGPlugin can stroke them — it cannot measure an SVG <text> element.
+/** How far into the draw the fill starts. */
+const FILL_CUE = 0.75;
+
 const LETTERS = [
   'M38.23 0.98Q28.91 0.98 21.61-3.54Q14.31-8.06 10.13-16.43Q5.96-24.80 5.96-36.33Q5.96-47.90 10.13-56.27Q14.31-64.65 21.61-69.19Q28.91-73.73 38.23-73.73Q43.75-73.73 48.66-72.12Q53.56-70.51 57.47-67.41Q61.38-64.31 63.99-59.89Q66.60-55.47 67.58-49.85L58.30-49.85Q57.52-53.61 55.64-56.45Q53.76-59.28 51.05-61.23Q48.34-63.18 45.07-64.16Q41.80-65.14 38.23-65.14Q31.69-65.14 26.42-61.82Q21.14-58.50 18.07-52.08Q14.99-45.65 14.99-36.33Q14.99-27.05 18.09-20.63Q21.19-14.21 26.46-10.91Q31.74-7.62 38.23-7.62Q41.80-7.62 45.07-8.62Q48.34-9.62 51.05-11.55Q53.76-13.48 55.64-16.33Q57.52-19.19 58.30-22.90L67.58-22.90Q66.65-17.33 64.04-12.94Q61.43-8.54 57.52-5.42Q53.61-2.29 48.71-0.66Q43.80 0.98 38.23 0.98',
   'M96.04 1.27Q90.87 1.27 86.65-0.68Q82.42-2.64 79.93-6.40Q77.44-10.16 77.44-15.53Q77.44-20.21 79.30-23.14Q81.15-26.07 84.25-27.76Q87.35-29.44 91.11-30.27Q94.87-31.10 98.68-31.59Q103.56-32.23 106.64-32.57Q109.72-32.91 111.21-33.74Q112.70-34.57 112.70-36.57L112.70-36.87Q112.70-40.28 111.43-42.65Q110.16-45.02 107.62-46.29Q105.08-47.56 101.27-47.56Q97.36-47.56 94.58-46.34Q91.80-45.12 90.06-43.29Q88.33-41.46 87.45-39.55L79-42.33Q81.10-47.31 84.67-50.12Q88.23-52.93 92.53-54.10Q96.83-55.27 101.03-55.27Q103.76-55.27 107.25-54.61Q110.74-53.96 113.99-52Q117.24-50.05 119.36-46.22Q121.48-42.38 121.48-35.99L121.48 0L112.84 0L112.84-7.42L112.26-7.42Q111.33-5.52 109.28-3.49Q107.23-1.46 103.96-0.10Q100.68 1.27 96.04 1.27M97.56-6.49Q102.44-6.49 105.81-8.40Q109.18-10.30 110.94-13.35Q112.70-16.41 112.70-19.73L112.70-27.29Q112.16-26.66 110.35-26.15Q108.54-25.63 106.23-25.24Q103.91-24.85 101.73-24.58Q99.56-24.32 98.29-24.17Q95.12-23.78 92.36-22.83Q89.60-21.87 87.94-20.04Q86.28-18.21 86.28-15.09Q86.28-12.26 87.74-10.35Q89.21-8.45 91.75-7.47Q94.29-6.49 97.56-6.49',
@@ -23,28 +27,51 @@ const LETTERS = [
 ];
 
 /**
- * Wordmark that strokes each letter on, then fills it in, once per page load.
+ * Wordmark that strokes each letter on, then fills it in.
+ *
+ * Runs once on mount by default. Set `playOnView` where the wordmark sits
+ * below the fold (the footer) — on mount the draw would finish unseen and the
+ * reader would only ever meet the finished word.
  */
 export function CakeStack({
   className,
   style,
+  playOnView = false,
+  delay = 0,
 }: {
   className?: string;
   style?: React.CSSProperties;
+  playOnView?: boolean;
+  /** Seconds to hold before drawing. The paths are already hidden in the
+   *  server-rendered markup, so the wordmark simply stays blank until then. */
+  delay?: number;
 }) {
   const container = useRef<SVGSVGElement>(null);
+  // Same in-view primitive BlurFade uses. ScrollTrigger is the GSAP-native
+  // option, but PageTransition puts a transform on an ancestor and its scroll
+  // math never resolves through that.
+  const inView = useInView(container, { once: true, amount: 0.6 });
+  const shouldPlay = !playOnView || inView;
 
   useGSAP(
     () => {
+      if (!shouldPlay) return;
+
       gsap
         .timeline()
+        // Stays at position 0 even when delayed, so the reset lands before
+        // first paint rather than snapping the word away 3s in.
         .set('path', { drawSVG: '0%' })
-        .to('path', {
-          drawSVG: '100%',
-          duration: 0.9,
-          stagger: 0.1,
-          ease: 'power1.inOut',
-        })
+        .to(
+          'path',
+          {
+            drawSVG: '100%',
+            duration: 0.9,
+            stagger: 0.1,
+            ease: 'power1.inOut',
+          },
+          delay
+        )
         // Staggered to match the draw and started partway into it, so each
         // letter fills as its own stroke lands rather than the whole word
         // waiting for the last one and filling as a separate closing phase.
@@ -57,10 +84,10 @@ export function CakeStack({
             stagger: 0.1,
             ease: 'power2.out',
           },
-          0.75
+          delay + FILL_CUE
         );
     },
-    { scope: container }
+    { scope: container, dependencies: [shouldPlay, delay] }
   );
 
   return (
