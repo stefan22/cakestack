@@ -119,14 +119,14 @@ export function RobotHero({
           fill="oklch(0.25 0.02 260)"
         />
         <circle
-          data-robot-dot="1"
+          className="group-hover:animate-robot-dot-chase"
           cx="140"
           cy="219"
           r="6"
           fill="var(--color-glow)"
         />
         <circle
-          data-robot-dot="2"
+          className="group-hover:animate-robot-dot-chase-2"
           cx="160"
           cy="219"
           r="6"
@@ -134,7 +134,7 @@ export function RobotHero({
           fillOpacity="0.5"
         />
         <circle
-          data-robot-dot="3"
+          className="group-hover:animate-robot-dot-chase-3"
           cx="180"
           cy="219"
           r="6"

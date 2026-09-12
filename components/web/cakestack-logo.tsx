@@ -20,14 +20,15 @@ export const CakeStackLogo: React.FC<CakeStackLogoProps> = ({
 }) => {
   return (
     <div
-      id="cakestack"
-      className={cn('flex items-center gap-1 select-none', className)}
+      className={cn(
+        'flex items-center gap-1 select-none',
+        '*:transition-all *:duration-1000 *:ease-linear',
+        className
+      )}
       role="img"
       aria-label="CakeStack"
       style={style}>
-      <div
-        className="relative shrink-0"
-        style={{ width: size, height: size }}>
+      <div className="relative shrink-0" style={{ width: size, height: size }}>
         <Image
           src="/images/cakestack-bgrm.webp"
           alt=""

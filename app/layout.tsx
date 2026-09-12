@@ -61,7 +61,7 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange>
-          <main className="max-w-7xl mx-auto w-full px-4 md:px-6 lg:px-8">
+          <main className="max-w-7xl mx-auto w-full flex flex-1 flex-col px-4 md:px-6 lg:px-8">
             <ConvexClientProvider>{children}</ConvexClientProvider>
           </main>
           <Toaster

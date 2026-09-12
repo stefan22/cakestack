@@ -1,6 +1,6 @@
 /** Shared Tailwind Typography classes for rendered Markdown */
 export const proseClassName =
-  'prose prose-neutral dark:prose-invert max-w-none prose-headings:tracking-tight prose-a:text-primary prose-pre:bg-muted';
+  'prose prose-neutral dark:prose-invert max-w-none prose-headings:tracking-tight prose-a:text-primary';
 
 /** Plain-text excerpt for list cards (strips common Markdown syntax) */
 export function stripMarkdown(text: string): string {

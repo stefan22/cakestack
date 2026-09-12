@@ -39,7 +39,7 @@ npm run dev
 // Open http://localhost:3000
 ```
 
-## Deploy to Vercel, Netlify, Clouflare
+## Deploy to Vercel or Cloudflare
 
 1. Set production environment variables (see [`.env.example`](.env.example)):
    - `CONVEX_DEPLOY_KEY`, `NEXT_PUBLIC_CONVEX_URL`, `NEXT_PUBLIC_CONVEX_SITE_URL`
