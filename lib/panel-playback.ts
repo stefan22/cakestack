@@ -18,7 +18,10 @@ import { useSyncExternalStore } from 'react';
  */
 
 /** How long after a play the wipe stays suppressed. */
-export const WIPE_COOLDOWN_MS = 2 * 60 * 1000; // 2 minutes
+// TEMPORARY: 0 while we get the sync right, so every fresh load plays the
+// wipe. playedThisLoad still stops it replaying on client-side navigation, so
+// the sign-in -> home case stays fixed. Put the 2 minutes back afterwards.
+export const WIPE_COOLDOWN_MS = 0;
 
 const STORAGE_KEY = 'cakestack:wipe-last-played';
 
@@ -86,6 +89,18 @@ export function wipeHasPlayed(): boolean {
 }
 
 /**
+ * The live answer, which does change the moment the wipe finishes. Display
+ * only — never for anything gating an animation.
+ */
+export function wipeHasPlayedLive(): boolean {
+  if (typeof window === 'undefined') return false;
+  const last = readLastPlayed();
+  return (
+    playedThisLoad || (last !== null && Date.now() - last < WIPE_COOLDOWN_MS)
+  );
+}
+
+/**
  * When the cooldown lapses, or null if there is no record and the wipe is
  * ready now. Server-safe: no window means no record.
  */
@@ -97,12 +112,14 @@ export function wipeReadyAt(): number | null {
 
 export function markWipePlayed(): void {
   playedThisLoad = true;
-  snapshot = true;
   try {
     window.localStorage.setItem(STORAGE_KEY, String(Date.now()));
   } catch {
     // Cooldown degrades to once-per-page-load, which is still the fix for the
     // replay-on-navigation case. Nothing to recover from.
   }
-  listeners.forEach((l) => l());
+  // Deliberately does not touch `snapshot` and does not notify. This runs on
+  // the timeline's onComplete — exactly when the wordmark, search and hero are
+  // mid-entrance — so moving the frozen value or waking a subscriber here is
+  // what tore the sequence apart. Live readers use wipeHasPlayedLive().
 }

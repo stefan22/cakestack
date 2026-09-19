@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import {
   WIPE_COOLDOWN_MS,
-  useWipeHasPlayed,
+  wipeHasPlayedLive,
   wipeReadyAt,
 } from '@/lib/panel-playback';
 
@@ -22,8 +22,10 @@ function formatRemaining(ms: number): string {
  * counting down before then — and only ticks once a play has been recorded.
  */
 export function WipeCountdown() {
-  const hasPlayed = useWipeHasPlayed();
   const [now, setNow] = useState<number | null>(null);
+  // Live read, not a subscription: a subscriber woken at the wipe's
+  // onComplete is what disturbed the animations.
+  const hasPlayed = now !== null && wipeHasPlayedLive();
 
   useEffect(() => {
     const tick = () => setNow(Date.now());
@@ -47,13 +49,13 @@ export function WipeCountdown() {
     : Math.max(0, readyAt - now);
 
   return (
-    <p className="text-xs text-white p-0 text-center w-full inline-flex justify-center">
+    <p className="text-xs text-white/50">
       {remaining > 0 ?
         <>
-          Main Page Animation Be Ready Again In: {' '} &nbsp;
+          next main animation ready in:{' '}
           <span className="tabular-nums">{formatRemaining(remaining)}</span>
         </>
-      : 'Main Page Animation Now Ready!'}
+      : 'next main animation ready'}
     </p>
   );
 }

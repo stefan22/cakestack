@@ -57,6 +57,8 @@ export function CtaSection() {
                 <ArrowRight className="size-4 -rotate-45" />
               </Button>
             </div>
+
+            <WipeCountdown />
           </div>
 
           <div className="relative flex justify-center pt-4 lg:justify-end">
@@ -67,9 +69,6 @@ export function CtaSection() {
             />
           </div>
         </div>
-
-        <WipeCountdown />
-
       </div>
     </BlurFade>
   );
