@@ -41,27 +41,39 @@ const Navbar = () => {
     () => {
       if (!isHome) return;
 
-      // Skipped run: no wipe to wait for, so drop it straight in. The
-      // `invisible` class is still on the element, and autoAlpha clears it.
-      if (!wipeWillPlay) {
-        gsap.set(searchRef.current, { autoAlpha: 1 });
-        return;
-      }
-
+      // One fade for both paths; only the cue differs. A suppressed run used
+      // to take a gsap.set here, which flips visibility and opacity in a
+      // single frame — the field snapped in. Dev hydrates slowly enough to
+      // hide that; production does not.
+      //
       // fromTo, not to: the field is hidden by a class, so its opacity is
       // still 1 and a plain `to` would find nothing to animate and simply pop
       // it on. autoAlpha carries visibility along with opacity — per GSAP it
       // flips to hidden at 0 to "prevent clicks/interactivity" — so the field
       // is genuinely inert behind the overlay, not just transparent.
-      gsap.fromTo(
+      const tl = gsap.timeline();
+
+      // An empty spacer holding the wipe's cue. It gives the reveal below a
+      // preceding end point, which is what a relative position parameter
+      // offsets from — without one, "-=1" has nothing to subtract from and is
+      // clamped to the start.
+      tl.to({}, { duration: wipeWillPlay ? LOGO_DRAW_DELAY : 0 });
+
+      tl.fromTo(
         searchRef.current,
-        { autoAlpha: 0 },
+        // scaleX rather than x: translating only slides the field in, where
+        // scaling opens it out from its own width, which is what reads as a
+        // reveal. Paired with opacity so it arrives rather than stretches.
+        { autoAlpha: 0, scaleX: 0.9 },
         {
           autoAlpha: 1,
+          scaleX: 1,
+          // Transform, so it costs no layout and cannot push its neighbours.
+          transformOrigin: 'right center',
           duration: NAV_REVEAL_DURATION,
-          delay: LOGO_DRAW_DELAY,
           ease: 'power2.out',
-        }
+        },
+        '-=1.65'
       );
     },
     { dependencies: [isHome, wipeWillPlay] }
