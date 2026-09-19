@@ -2,11 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import {
-  WIPE_COOLDOWN_MS,
-  wipeHasPlayedLive,
-  wipeReadyAt,
-} from '@/lib/panel-playback';
+import { WIPE_COOLDOWN_MS, wipeReadyAt } from '@/lib/panel-playback';
 
 function formatRemaining(ms: number): string {
   const totalSeconds = Math.ceil(ms / 1000);
@@ -23,9 +19,6 @@ function formatRemaining(ms: number): string {
  */
 export function WipeCountdown() {
   const [now, setNow] = useState<number | null>(null);
-  // Live read, not a subscription: a subscriber woken at the wipe's
-  // onComplete is what disturbed the animations.
-  const hasPlayed = now !== null && wipeHasPlayedLive();
 
   useEffect(() => {
     const tick = () => setNow(Date.now());
@@ -39,23 +32,30 @@ export function WipeCountdown() {
     };
   }, []);
 
-  // Before a play — and on the server, which can see neither the flag nor
-  // storage — this is the full duration, so hydration has nothing to disagree
-  // about.
-  const readyAt = hasPlayed && now !== null ? wipeReadyAt() : null;
+  // Driven by the stored timestamp alone. It deliberately does not ask
+  // whether the wipe has played: on a load where the wipe was suppressed that
+  // answer flips to false the moment the cooldown lapses, which reset the
+  // clock to the full duration instead of announcing it was ready.
+  //
+  // No timestamp means it has never run — and on the server, which cannot see
+  // storage — so it parks at the full duration with nothing to count.
+  const readyAt = now === null ? null : wipeReadyAt();
   const remaining =
     readyAt === null || now === null ?
       WIPE_COOLDOWN_MS
     : Math.max(0, readyAt - now);
 
   return (
-    <p className="text-xs text-white/50">
+    // flex, not inline-flex: block-level so it already spans the banner,
+    // which is why no w-full is needed. gap-1 because flex discards the
+    // whitespace-only node between the label and the clock.
+    <p className="flex justify-center gap-1 p-0 text-xs text-white/50">
       {remaining > 0 ?
         <>
-          next main animation ready in:{' '}
+          Main Page Animation Ready Again In:{' '}
           <span className="tabular-nums">{formatRemaining(remaining)}</span>
         </>
-      : 'next main animation ready'}
+      : 'Main Page Animation Now Ready'}
     </p>
   );
 }
