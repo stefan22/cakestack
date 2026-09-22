@@ -11,6 +11,9 @@ const nextConfig: NextConfig = {
   },
   cacheComponents: true,
   images: {
+    ...(process.env.NODE_ENV !== 'production'
+      ? { dangerouslyAllowLocalIP: true }
+      : {}),
     remotePatterns: [
       {
         hostname: '**.convex.cloud',
@@ -27,6 +30,15 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         port: '',
       },
+      ...(process.env.NODE_ENV !== 'production'
+        ? [
+            {
+              hostname: '127.0.0.1',
+              protocol: 'http' as const,
+              port: '3210',
+            },
+          ]
+        : []),
     ],
   },
 };
