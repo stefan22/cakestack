@@ -130,10 +130,23 @@ const Navbar = () => {
       {/* Right Section */}
       <div className="flex items-center gap-2">
         {/* `invisible` only on home: it hides the field in the server-rendered
-            markup so it can't flash before GSAP takes over at hydration. */}
+            markup so it can't flash before GSAP takes over at hydration.
+
+            `relative z-20`: the GSAP reveal sets a `transform` on this div,
+            which — regardless of `position` — creates its own stacking
+            context per the CSS spec. Without an explicit z-index that
+            context has none, so it is painted in plain DOM order among its
+            siblings' stacking contexts, and page content declared later in
+            the DOM (the hero section, its Particles canvas, post cards)
+            painted on top of it and ate every click on the search dropdown.
+            `z-20` outranks SearchInput's own internal `z-10`, which only
+            matters for ordering *within* this context. */}
         <div
           ref={searchRef}
-          className={cn('hidden md:block mr-3', isHome && 'invisible')}>
+          className={cn(
+            'relative z-20 hidden md:block mr-3',
+            isHome && 'invisible'
+          )}>
           <SearchInput />
         </div>
 
