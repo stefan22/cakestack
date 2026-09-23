@@ -134,7 +134,7 @@ const Navbar = () => {
         <div
           id="top-navigation"
           ref={searchRef}
-          className={cn('hidden md:block mr-3', isHome && 'invisible')}>
+          className={cn('relative hidden md:block mr-3', isHome && 'invisible')}>
           <SearchInput />
         </div>
 
