@@ -132,6 +132,7 @@ const Navbar = () => {
         {/* `invisible` only on home: it hides the field in the server-rendered
             markup so it can't flash before GSAP takes over at hydration. */}
         <div
+          id="top-navigation"
           ref={searchRef}
           className={cn('hidden md:block mr-3', isHome && 'invisible')}>
           <SearchInput />

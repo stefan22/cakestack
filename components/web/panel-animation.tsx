@@ -15,11 +15,14 @@ import { markWipePlayed, wipeHasPlayed } from '@/lib/panel-playback';
 
 gsap.registerPlugin(useGSAP);
 
+
 /**
  * Full-screen panel wipe that plays once on mount and uncovers the page.
  */
 const PanelAnimation = () => {
   const containerRef = useRef<HTMLUListElement>(null);
+
+
 
   useGSAP(
     () => {

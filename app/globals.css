@@ -250,3 +250,13 @@
     width: 235vw;
   }
 }
+
+
+/* top navigation */
+#top-navigation {
+  z-index: 0;
+}
+
+#top-navigation:focus, #top-navigation:focus-visible, #top-navigation:focus-within {
+  z-index:10;
+}

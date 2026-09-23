@@ -5,6 +5,7 @@ import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import Link from 'next/link';
 
+
 export function SearchInput() {
   const [term, setTerm] = useState('');
   const [open, setOpen] = useState(false);
