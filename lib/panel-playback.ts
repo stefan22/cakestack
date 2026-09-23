@@ -48,11 +48,14 @@ function readLastPlayed(): number | null {
   }
 }
 
+function computeHasPlayed(): boolean {
+  const last = readLastPlayed();
+  return playedThisLoad || (last !== null && Date.now() - last < WIPE_COOLDOWN_MS);
+}
+
 function getSnapshot(): boolean {
   if (snapshot === null) {
-    const last = readLastPlayed();
-    snapshot =
-      playedThisLoad || (last !== null && Date.now() - last < WIPE_COOLDOWN_MS);
+    snapshot = computeHasPlayed();
   }
   return snapshot;
 }
@@ -79,10 +82,19 @@ export function useWipeHasPlayed(): boolean {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
-/** Non-reactive read, for effects that only need the value once. */
+/**
+ * Non-reactive read, for effects that only need the value once.
+ *
+ * Deliberately bypasses the memoized `snapshot` that `useWipeHasPlayed` uses:
+ * that cache is frozen at first read and never invalidated (see
+ * `markWipePlayed`), which is correct for a single mount but was returning a
+ * stale "not played yet" answer to every remount `template.tsx` triggers on
+ * client-side navigation, replaying the wipe on every page instead of once
+ * per cooldown.
+ */
 export function wipeHasPlayed(): boolean {
   if (typeof window === 'undefined') return false;
-  return getSnapshot();
+  return computeHasPlayed();
 }
 
 /**

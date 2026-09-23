@@ -24,7 +24,7 @@ describe('panel playback gate', () => {
     expect(m.wipeHasPlayed()).toBe(false);
   });
 
-  it('does not move once the wipe finishes', async () => {
+  it('reflects the played state immediately, so the next mount does not replay', async () => {
     const m = await freshLoad();
 
     // The read happens first because that is the real order: the gate is read
@@ -33,11 +33,19 @@ describe('panel playback gate', () => {
 
     m.markWipePlayed();
 
-    // Regression: this used to flip to true, which changed a useGSAP
-    // dependency array and a React key mid-entrance — restarting the
-    // wordmark, snapping the search and remounting the hero at the exact
-    // moment the overlay cleared.
-    expect(m.wipeHasPlayed()).toBe(false);
+    // This must flip to true in the same load: app/template.tsx remounts
+    // PanelAnimation on every client-side navigation, and it calls
+    // wipeHasPlayed() fresh on each mount to decide whether to replay. A
+    // frozen "not played yet" answer here was the regression — the wipe
+    // replayed on every page instead of once per cooldown.
+    //
+    // This is deliberately a different question from whether the *reactive*
+    // useWipeHasPlayed() snapshot moves mid-animation: that one stays frozen
+    // per mount on purpose (see markWipePlayed), because hero-stagger and
+    // navbar key/gate their entrance off it and flipping it mid-flight is
+    // what tore the sequence apart. wipeHasPlayed() has no such constraint —
+    // it is read once, synchronously, before any animation starts.
+    expect(m.wipeHasPlayed()).toBe(true);
   });
 
   it('suppresses the wipe on the next load while the cooldown is active', async () => {
