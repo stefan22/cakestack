@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useRef, useSyncExternalStore } from 'react';
+import { useSyncExternalStore } from 'react';
 
 /**
  * Decides whether the panel wipe should run.
@@ -25,6 +25,14 @@ const STORAGE_KEY = 'cakestack:wipe-last-played';
 /** Survives client-side navigation; resets on a real document load. */
 let playedThisLoad = false;
 
+/**
+ * useSyncExternalStore requires a snapshot that is stable between renders, so
+ * the answer is computed once and only recomputed when it actually changes.
+ * Deriving it from Date.now() on every call would hand React a value that can
+ * differ within a single render.
+ */
+let snapshot: boolean | null = null;
+
 const listeners = new Set<() => void>();
 
 function readLastPlayed(): number | null {
@@ -45,6 +53,13 @@ function computeHasPlayed(): boolean {
   return playedThisLoad || (last !== null && Date.now() - last < WIPE_COOLDOWN_MS);
 }
 
+function getSnapshot(): boolean {
+  if (snapshot === null) {
+    snapshot = computeHasPlayed();
+  }
+  return snapshot;
+}
+
 /**
  * The server has no storage and no flag, so it always renders the "about to
  * play" state. React hydrates against this and then re-renders with the real
@@ -62,39 +77,20 @@ function subscribe(onChange: () => void): () => void {
   };
 }
 
-/**
- * Whether the wipe has already run, and so should be skipped.
- *
- * Frozen once per mount, not once per page load: app/template.tsx remounts
- * hero-stagger and navbar on every client-side navigation, and each of those
- * fresh mounts needs the *current* answer — otherwise a mount from before the
- * wipe first completed keeps every later visit to home holding the search
- * and hero behind the full entrance delay, even once the wipe itself has
- * correctly stopped replaying (see wipeHasPlayed).
- *
- * Still stable within one mount's lifetime, same as before: a ref computed
- * lazily on first render and never reassigned is what useSyncExternalStore
- * needs to avoid re-deriving a value that could differ mid-render, and it is
- * what keeps this mount's answer from moving under it — markWipePlayed
- * deliberately does not notify, so nothing here changes mid-animation.
- */
+/** Whether the wipe has already run, and so should be skipped. */
 export function useWipeHasPlayed(): boolean {
-  const frozen = useRef<boolean | null>(null);
-  if (frozen.current === null) {
-    frozen.current = computeHasPlayed();
-  }
-  const getSnapshot = useCallback(() => frozen.current as boolean, []);
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
 /**
  * Non-reactive read, for effects that only need the value once.
  *
- * panel-animation.tsx calls this synchronously at the top of its mount
- * effect, before any tween starts, so — unlike useWipeHasPlayed — it has no
- * reason to freeze: it always computes fresh, which is what makes a replayed
- * mount (client-side navigation back to a page that runs the wipe) see the
- * play that happened on an earlier mount instead of the pre-play answer.
+ * Deliberately bypasses the memoized `snapshot` that `useWipeHasPlayed` uses:
+ * that cache is frozen at first read and never invalidated (see
+ * `markWipePlayed`), which is correct for a single mount but was returning a
+ * stale "not played yet" answer to every remount `template.tsx` triggers on
+ * client-side navigation, replaying the wipe on every page instead of once
+ * per cooldown.
  */
 export function wipeHasPlayed(): boolean {
   if (typeof window === 'undefined') return false;
@@ -119,11 +115,8 @@ export function markWipePlayed(): void {
     // Cooldown degrades to once-per-page-load, which is still the fix for the
     // replay-on-navigation case. Nothing to recover from.
   }
-  // Deliberately does not notify: this runs on the timeline's onComplete —
-  // exactly when the wordmark, search and hero are mid-entrance — and waking
-  // a subscriber here, which would move the *current* mount's already-frozen
-  // useWipeHasPlayed() answer mid-render, is what tore the sequence apart.
-  // The next mount (the next navigation) picks up the change on its own,
-  // since its ref has not been computed yet. The countdown reads
-  // wipeReadyAt() instead of this hook, so it is unaffected either way.
+  // Deliberately does not touch `snapshot` and does not notify. This runs on
+  // the timeline's onComplete — exactly when the wordmark, search and hero are
+  // mid-entrance — so moving the frozen value or waking a subscriber here is
+  // what tore the sequence apart. The countdown reads wipeReadyAt().
 }
