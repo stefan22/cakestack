@@ -2,6 +2,10 @@ A NextJS v. **16.2.3** Project
 
 ## Next.js React Blog
 
+This is the older staging site for cakestack.uk.  | Current cakestack.uk repository is fullblog (private)
+.. and missing the mobile navigation, bug fixes, animation timeline adjustments, more bug fixes.
+... this one's hero is different. this one runs on cake no tokens but same silly robot etc etc - a month off or so.
+
 Route groups • Dynamic route streaming • Suspense boundaries •
 Auth flow - Better Auth • Next Proxy •
 Server actions • Server-side/ Client-side validation  
